@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "728095094264",
+    "firebase_url": "https://etu-market---buyer-default-rtdb.firebaseio.com",
+    "project_id": "etu-market---buyer",
+    "storage_bucket": "etu-market---buyer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728095094264:android:6e13799ebbb1e32927920d",
+        "android_client_info": {
+          "package_name": "com.ilham.etumarketbybuyer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq_zUWFzExMo2g2f8rUF-xTolCOHUahNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728095094264:android:dab9827f32a4887127920d",
+        "android_client_info": {
+          "package_name": "com.ilham.etumarketbyseller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBq_zUWFzExMo2g2f8rUF-xTolCOHUahNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
