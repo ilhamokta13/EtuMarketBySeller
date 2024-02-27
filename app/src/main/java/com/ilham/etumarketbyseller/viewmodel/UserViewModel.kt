@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.ilham.etumarketbyseller.model.ResponseRegister
 import com.ilham.etumarketbyseller.model.login.LoginBody
 import com.ilham.etumarketbyseller.model.login.ResponseLogin
+import com.ilham.etumarketbyseller.model.profile.DataProfile
+import com.ilham.etumarketbyseller.model.profile.UpdateProfileResponse
 import com.ilham.etumarketbyseller.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
@@ -72,6 +74,32 @@ class UserViewModel @Inject constructor(private val api : ApiService) : ViewMode
             }
 
         })
+    }
+
+
+    private val _responseupdateprofile : MutableLiveData<DataProfile> = MutableLiveData()
+    val responseupdateprofile : LiveData<DataProfile> = _responseupdateprofile
+
+    fun updateprofile(token: String, fullName: String, email: String, telp: String, role: String, shopName:String){
+        api.updateprofile("Bearer $token", fullName, email, telp, role, shopName).enqueue(object : Callback<UpdateProfileResponse>{
+            override fun onResponse(
+                call: Call<UpdateProfileResponse>,
+                response: Response<UpdateProfileResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _responseupdateprofile.value = response.body()!!.data
+
+                } else {
+                    Log.e("Update Profile", "${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
+                Log.e("Update Profile Null", "Cannot get data update profile")
+            }
+
+        })
+
     }
 
 

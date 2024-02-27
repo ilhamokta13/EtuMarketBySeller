@@ -14,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.ilham.etumarketbyseller.databinding.FragmentLoginBinding
+import com.ilham.etumarketbyseller.model.DataRegister
 import com.ilham.etumarketbyseller.model.login.LoginBody
 import com.ilham.etumarketbyseller.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +56,8 @@ class LoginFragment : Fragment() {
                 login()
 
 
+
+
             }
         }
 
@@ -62,6 +65,10 @@ class LoginFragment : Fragment() {
             Navigation.findNavController(binding.root)
                 .navigate(R.id.action_loginFragment_to_registerFragment)
         }
+
+//        binding.tvBuyer.setOnClickListener {
+//            findNavController().navigate(R.id.action_loginFragment_to_homeBuyerFragment)
+//        }
 
 
 
@@ -71,12 +78,28 @@ class LoginFragment : Fragment() {
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
 
+        firebaseAuth!!.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    binding.etEmail.setText("")
+                    binding.etPassword.setText("")
+//                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                } else {
+                    Toast.makeText(context,
+                        "email or password invalid",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+
+
         if (email.isNotEmpty() && password.isNotEmpty()){
+
             userVm.responselogin.observe(viewLifecycleOwner, Observer {
-//            listuserlogin = it
-//            loginAuth(listuserlogin)
                 if(it.message == "Success"){
                     findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+//                    navigationBundlingSf()
                     Toast.makeText(context, "User Berhasil Login", Toast.LENGTH_SHORT).show()
 
 
@@ -88,7 +111,11 @@ class LoginFragment : Fragment() {
                 sharedPref.apply()
 
             })
+
+
             userVm.postlogin(LoginBody(email, password))
+
+
 
         } else{
             Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
@@ -98,6 +125,9 @@ class LoginFragment : Fragment() {
 
 
     }
+
+
+
 
 
 }

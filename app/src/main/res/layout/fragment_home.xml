@@ -6,23 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".HomeFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Homescreen"
+        tools:listitem="@layout/item_list" />
+
     <TextView
         android:id="@+id/welcome"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="0dp"
         android:layout_toStartOf="@+id/btn_logout"
+        android:background="@color/blue"
         android:padding="18dp"
-        android:text="Welcome, username!" />
+        android:text="Welcome, username!"
+        android:textColor="#151515"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:background="@color/blue"
         android:padding="18dp"
-        android:text="Logout" />
+        android:text="Logout"
+        android:textColor="#151515"
+        android:textStyle="bold" />
 
 
     <TextView
@@ -31,16 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome"
         android:gravity="center_horizontal"
+        android:background="@color/blue"
         android:text="Home"
+        android:textColor="#151515"
         android:textSize="34sp"
         android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Homescreen"
-        tools:listitem="@layout/item_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -49,10 +58,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="25dp"
-        android:layout_marginBottom="34dp"
+        android:layout_marginBottom="70dp"
         android:clickable="true"
         android:contentDescription="add"
-        app:backgroundTint="@color/teal_200"
+        app:backgroundTint="@color/blue"
         app:srcCompat="@drawable/ic_baseline_add_24" />
+
 
 </RelativeLayout>

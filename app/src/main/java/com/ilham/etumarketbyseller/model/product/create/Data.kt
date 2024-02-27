@@ -12,8 +12,10 @@ data class Data(
     val id: String,
     @SerializedName("image")
     val image: String,
-    @SerializedName("location")
-    val location: String,
+    @SerializedName("latitude")
+    val latitude: Double,
+    @SerializedName("longitude")
+    val longitude: Double,
     @SerializedName("nameProduct")
     val nameProduct: String,
     @SerializedName("price")

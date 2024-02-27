@@ -156,6 +156,18 @@
         <item name="lineHeight">36sp</item>
     </style>
 
+    <style name="textjudul">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="textbody">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 
 
 </resources>

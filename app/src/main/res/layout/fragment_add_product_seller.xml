@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_home"
     tools:context=".AddProductSellerFragment">
 
     <androidx.cardview.widget.CardView
@@ -14,6 +15,14 @@
         android:layout_marginStart="20dp"
         app:cardCornerRadius="30dp"
         app:cardElevation="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,16 +39,15 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"/>
 
+
             <ImageView
+                android:id="@+id/uploadImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/uploadimg"
-                android:id="@+id/uploadImage"
-                android:scaleType="fitXY"/>
-
-
+                android:scaleType="fitXY"
+                android:src="@drawable/uploadimg" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -48,6 +56,7 @@
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
                 android:hint="Enter Nama Produk"
+                android:background="@drawable/shape_rectangle_date"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black" />
 
@@ -59,48 +68,141 @@
                 android:padding="16dp"
                 android:inputType = "number"
                 android:hint="Enter Price"
+                android:background="@drawable/shape_rectangle_date"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 android:id="@+id/uploadDesc"
                 android:layout_marginTop="8dp"
                 android:padding="16dp"
                 android:hint="Enter Deskripsi"
+                android:background="@drawable/shape_rectangle_date"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/form_titlelocation"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/uploadCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_rectangle_date"
+                    android:inputType="none"
+                    tools:ignore="SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputdate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/uploadCategory"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="0dp"
+                android:minHeight="48dp"
+                app:hintEnabled="false"
+                app:hintAnimationEnabled="false"
+                app:boxBackgroundMode="outline"
+                android:layout_marginBottom="15dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDate"
+                android:layout_width="match_parent"
+                android:hint="Masukan Tanggal"
+                android:padding="2dp"
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:drawableEnd="@drawable/date"
+                android:background="@drawable/shape_rectangle_date"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:id="@+id/latitude"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_rectangle_date"
+                android:gravity="start|center_vertical"
+                android:hint="Enter Latitude"
+                android:inputType="number"
+                android:padding="16dp"
+                android:textColor="@color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/longitude"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
-                android:hint="Enter Category"
+                android:inputType = "number"
+                android:hint="Enter Longitude"
+                android:background="@drawable/shape_rectangle_date"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/uploadreleaseDate"
+                android:layout_height="50dp"
+                android:id="@+id/altitude"
                 android:layout_marginTop="20dp"
                 android:padding="16dp"
-                android:hint="Enter ReleaseDate"
+                android:inputType = "number"
+                android:hint="Enter Altitude"
+                android:background="@drawable/shape_rectangle_date"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
 
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/edAcc"
+                android:layout_marginTop="20dp"
+                android:padding="16dp"
+                android:inputType = "number"
+                android:hint="edAcc"
+                android:background="@drawable/shape_rectangle_date"
+                android:gravity="start|center_vertical"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:id="@+id/uploadlocation"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="20dp"
                 android:padding="16dp"
+                android:inputType = "number"
                 android:hint="Enter Location"
+                android:background="@drawable/shape_rectangle_date"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/findlocation"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="@color/blue"
+                android:text="Find Location"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+
+
+
+
 
 
             <Button
@@ -111,9 +213,11 @@
                 android:textSize="18sp"
                 android:layout_marginTop="15dp"
                 app:cornerRadius = "20dp"
-                android:backgroundTint="@color/purple_700"/>
+                android:backgroundTint="@color/blue"/>
 
         </LinearLayout>
+
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>

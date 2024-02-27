@@ -8,13 +8,21 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="Orange">#FB8C00</color>
+
+    <color name="colorWhite">#fff</color>
+
 
     <color name="DARKBLUE05">#4B1979</color>
     <color name="DARKBLUE04">#7126B5</color>
-    <color name="Orange">#FB8C00</color>
-    <color name="blue">#2196F3</color>
+
+    <color name="blue">#21C2F3</color>
     <color name="color_main">#39E1C1</color>
     <color name="colorPrimary">#071875</color>
+    <color name="colorTextBackground">#f5f5f5</color>
+    <color name="colorItemLeft">#E6E4E4</color>
+    <color name="colorItemRight">#813fd7</color>
+    <color name="shimer">#DDDDDD</color>
 
 
 

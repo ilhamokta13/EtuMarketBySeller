@@ -5,6 +5,7 @@
     android:id="@+id/relativeapp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_home"
     tools:context=".DetailFragment">
 
     <TextView
@@ -13,176 +14,125 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/btn_logout"
-        android:background="@color/white"
+        android:background="@color/blue"
         android:padding="18dp"
-        android:text="Welcome, username!" />
+        android:text="Welcome, username!"
+        android:textColor="#151515"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/btn_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:background="@color/white"
+        android:background="@color/blue"
         android:padding="18dp"
-        android:text="Logout" />
+        android:text="Logout"
+        android:textColor="#151515"
+        android:textStyle="bold" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/tv_detail"
+        style="@style/textjudul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_logout"
+        android:layout_centerHorizontal="true"
+        android:text="Detail"
+        android:textSize="34sp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_detailproduct"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_detail"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/white"
+        android:elevation="5dp"
+        app:cardCornerRadius="15dp">
 
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/iv_photoProduct"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="20dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_product"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.163"
-            app:riv_corner_radius="10dp" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_kategori"
-            style="@style/LoginTextInputLayoutStyle"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="30dp"
-            android:hint="Kategori"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:errorEnabled="true"
-            app:hintTextColor="@color/color_main"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_photoProduct">
+            android:padding="10dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_kategoriProduct"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                android:editable="false"
-                android:fontFamily="@font/nunitosemibold"
-                android:textSize="16sp"
-                tools:ignore="Deprecated" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
+                android:id="@+id/iv_productimagedetail"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_launcher_background" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_namaProduct"
-            style="@style/LoginTextInputLayoutStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:hint="Nama produk"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:errorEnabled="true"
-            app:hintTextColor="@color/color_main"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_kategori">
+            <TextView
+                android:id="@+id/tv_namaproductdetail"
+                style="@style/textjudul"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_productimagedetail"
+                android:layout_centerHorizontal="true"
+                android:textSize="23sp"
+                android:text="Nama Product" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_namaProduct"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:fontFamily="@font/nunitosemibold"
-                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_hargaproduk"
+                style="@style/textbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_namaproductdetail"
+                android:text="Harga"
+                android:textSize="20sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_hargaProduct"
-            style="@style/LoginTextInputLayoutStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:hint="Harga"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:errorEnabled="true"
-            app:hintTextColor="@color/color_main"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_namaProduct">
+            <TextView
+                android:id="@+id/tv_category"
+                style="@style/textbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_hargaproduk"
+                android:textSize="20sp"
+                android:text="Category" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_hargaProduct"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:fontFamily="@font/nunitosemibold"
-                android:inputType="number"
-                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_release"
+                style="@style/textbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_category"
+                android:textSize="20sp"
+                android:text="Release" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/tv_location"
+                style="@style/textbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_release"
+                android:text="Location"
+                android:textSize="20sp" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_deskripsiProduct"
-            style="@style/LoginTextInputLayoutStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:hint="Deskripsi"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:errorEnabled="true"
-            app:hintTextColor="@color/color_main"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_hargaProduct">
+            <TextView
+                android:id="@+id/tv_description"
+                style="@style/textbody"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_location"
+                android:textSize="20sp"
+                android:text="Description" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_deskripsiProduct"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:fontFamily="@font/nunitosemibold"
-                android:textSize="16sp" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_lokasiProduct"
-            style="@style/LoginTextInputLayoutStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:hint="Lokasi"
-            android:theme="@style/LoginTextInputLayoutStyle"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:errorEnabled="true"
-            app:hintTextColor="@color/color_main"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/til_deskripsiProduct">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_lokasiProduct"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:fontFamily="@font/nunitosemibold"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
 
 
 </RelativeLayout>

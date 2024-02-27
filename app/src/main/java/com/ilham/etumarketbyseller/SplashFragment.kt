@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ilham.etumarketbyseller.databinding.FragmentSplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
 
     lateinit var binding : FragmentSplashBinding
