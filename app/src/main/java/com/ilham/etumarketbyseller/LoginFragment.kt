@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -33,7 +34,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentLoginBinding.inflate(layoutInflater,container,false)
+        binding = FragmentLoginBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -66,9 +67,17 @@ class LoginFragment : Fragment() {
                 .navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
-//        binding.tvBuyer.setOnClickListener {
-//            findNavController().navigate(R.id.action_loginFragment_to_homeBuyerFragment)
-//        }
+
+        binding.ivBack.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_pilihanFragment)
+        }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Tidak melakukan apa-apa ketika tombol kembali ditekan
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
 
 
@@ -78,53 +87,50 @@ class LoginFragment : Fragment() {
         val email = binding.etEmail.text.toString()
         val password = binding.etPassword.text.toString()
 
-        firebaseAuth!!.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
+        firebaseAuth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // Firebase authentication successful
                     binding.etEmail.setText("")
                     binding.etPassword.setText("")
-//                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
+                    // Now, check your custom authentication logic
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        userVm.responselogin.observe(viewLifecycleOwner, Observer { response ->
+                            if (response.message == "Success") {
+                                findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                                Toast.makeText(context, "User Berhasil Login", Toast.LENGTH_SHORT).show()
+
+                                // Save token to SharedPreferences
+                                val sharedPref = pref.edit()
+                                sharedPref.putString("token", response.token)
+                                sharedPref.apply()
+                            } else {
+                                // Tambahkan toast jika login gagal karena username atau password salah
+                                if (response.message == "Invalid email or password") {
+                                    Toast.makeText(context, "Username atau Password Salah", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        })
+
+                        userVm.postlogin(LoginBody(email, password))
+                    } else {
+                        Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Toast.makeText(context,
-                        "email or password invalid",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    // Firebase authentication failed
+                    Toast.makeText(context, "Firebase Authentication Failed", Toast.LENGTH_SHORT).show()
                 }
             }
 
 
 
-        if (email.isNotEmpty() && password.isNotEmpty()){
-
-            userVm.responselogin.observe(viewLifecycleOwner, Observer {
-                if(it.message == "Success"){
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-//                    navigationBundlingSf()
-                    Toast.makeText(context, "User Berhasil Login", Toast.LENGTH_SHORT).show()
-
-
-                }else{
-                    Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
-                }
-                val sharedPref = pref.edit()
-                sharedPref.putString("token", it.token)
-                sharedPref.apply()
-
-            })
-
-
-            userVm.postlogin(LoginBody(email, password))
-
-
-
-        } else{
-            Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
-        }
-
-
-
 
     }
+
+
 
 
 

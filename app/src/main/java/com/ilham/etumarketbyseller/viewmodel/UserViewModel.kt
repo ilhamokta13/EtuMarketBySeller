@@ -9,6 +9,10 @@ import com.ilham.etumarketbyseller.model.login.LoginBody
 import com.ilham.etumarketbyseller.model.login.ResponseLogin
 import com.ilham.etumarketbyseller.model.profile.DataProfile
 import com.ilham.etumarketbyseller.model.profile.UpdateProfileResponse
+import com.ilham.etumarketbyseller.model.profile.allprofile.AllProfileResponse
+import com.ilham.etumarketbyseller.model.profile.allprofile.Data
+import com.ilham.etumarketbyseller.model.profile.profilebyid.ProfilebyIdResponse
+import com.ilham.etumarketbyseller.model.profile.profilebyid.UserProfile
 import com.ilham.etumarketbyseller.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
@@ -106,6 +110,57 @@ class UserViewModel @Inject constructor(private val api : ApiService) : ViewMode
     fun setDataMessage(){
         _toastLogin.value=null
     }
+
+    private val _responseallprofile : MutableLiveData<List<Data>> = MutableLiveData()
+    val responseallprofile : LiveData<List<Data>> = _responseallprofile
+
+    fun allprofile(token: String){
+        api.getallprofile("Bearer $token").enqueue(object : Callback<AllProfileResponse>{
+            override fun onResponse(
+                call: Call<AllProfileResponse>,
+                response: Response<AllProfileResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _responseallprofile.value = response.body()!!.data
+
+                } else {
+                    Log.e("DataAllProfile", "${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<AllProfileResponse>, t: Throwable) {
+                Log.e("DataAllProfileNull", "CannotAllDataProfile")
+            }
+
+        })
+    }
+
+    private val getprofile : MutableLiveData<UserProfile> = MutableLiveData()
+    val dataprofile : LiveData<UserProfile> = getprofile
+
+    fun getprofile(token: String){
+        api.getprofile("Bearer $token").enqueue(object : Callback<ProfilebyIdResponse>{
+            override fun onResponse(
+                call: Call<ProfilebyIdResponse>,
+                response: Response<ProfilebyIdResponse>
+            ) {
+                if (response.isSuccessful) {
+                    getprofile.value = response.body()!!.data
+
+                } else {
+                    Log.e("GetProfile", "${response.errorBody()?.string()}")
+                }
+
+            }
+
+            override fun onFailure(call: Call<ProfilebyIdResponse>, t: Throwable) {
+                Log.e("GetProfile", "Cannot Get Data Profile User")
+            }
+
+        })
+    }
+
+
 
 
 }

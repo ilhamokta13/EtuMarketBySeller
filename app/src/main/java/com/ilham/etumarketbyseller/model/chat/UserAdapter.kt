@@ -27,7 +27,9 @@ class UserAdapter(private val context: Context, private val userList: ArrayList<
         val user = userList[position]
         holder.binding.userName.text = user.fullname.toString()
 //        Glide.with(context).load(user.profileImage).placeholder(R.drawable.profile_image).into(holder.binding.userImage)
-        Picasso.get().load("gs://etu-market---buyer.appspot.com/image/${user.profileImage}").into(holder.binding.userImage);
+//        Picasso.get().load("gs://etu-market---buyer.appspot.com/image/${user.profileImage}").into(holder.binding.userImage);
+        Glide.with(context).load("gs://etu-market---buyer.appspot.com/image ${user.profileImage}").placeholder(R.drawable.profile_image).into(holder.binding.userImage)
+
 
         holder.binding.layoutUser.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)

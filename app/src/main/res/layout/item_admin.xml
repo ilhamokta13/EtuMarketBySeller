@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btn_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:backgroundTint="@color/blue"
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageButton
+                android:id="@+id/dropdown_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@null"
+                android:padding="8dp"
+                android:src="@drawable/ic_baseline_arrow_drop_down_24" />
+
+            <TextView
+                android:id="@+id/NamaTokoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Toko : "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/TotalPendapatanLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/NamaTokoLabel"
+                android:layout_marginTop="8dp"
+                android:text="Total Pendapatan: "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/KategoriLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/TotalPendapatanLabel"
+                android:layout_marginTop="8dp"
+                android:text="Kategori: "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/NamaToko"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/NamaTokoLabel"
+                android:layout_toEndOf="@id/NamaTokoLabel"
+                android:text="Nama Toko"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/TotalPendapatan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/TotalPendapatanLabel"
+                android:layout_toEndOf="@id/TotalPendapatanLabel"
+                android:text="Total Pendapatan"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/Kategori"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/KategoriLabel"
+                android:layout_toEndOf="@id/KategoriLabel"
+                android:text="Kategori"
+                android:textColor="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Kategori"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

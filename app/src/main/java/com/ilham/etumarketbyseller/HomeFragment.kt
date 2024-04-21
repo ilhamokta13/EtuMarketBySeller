@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ilham.etumarketbyseller.databinding.FragmentHomeBinding
 import com.ilham.etumarketbyseller.viewmodel.HomeViewModel
 import com.ilham.etumarketbyseller.viewmodel.ProductViewModel
+import com.ilham.etumarketbyseller.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +29,8 @@ class HomeFragment : Fragment() {
     lateinit var pref: SharedPreferences
     lateinit var homeVm: HomeViewModel
     lateinit var productVm: ProductViewModel
-    private lateinit var adapter: SellerAdapter
+    lateinit var userVm : UserViewModel
+    private lateinit var selleradapter: SellerAdapter
 
 
 
@@ -45,11 +49,19 @@ class HomeFragment : Fragment() {
         pref = requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)!!
         homeVm = ViewModelProvider(this).get(HomeViewModel::class.java)
         productVm = ViewModelProvider(this).get(ProductViewModel::class.java)
-        val fullname = pref.getString("fullname", "")
-        binding.welcome.text = "Welcome, $fullname!"
-        Log.d("Homescreen", "Username : $fullname")
+        userVm = ViewModelProvider(this).get(UserViewModel::class.java)
+//        val fullname = pref.getString("fullname", "")
+//        binding.welcome.text = "Welcome, $fullname!"
+//        Log.d("Homescreen", "Username : $fullname")
         val token = pref.getString("token", "").toString()
-//        val id = pref.getString("id", "").toString()
+        selleradapter = SellerAdapter(requireContext(),ArrayList(),homeVm, productVm)
+
+
+        userVm.getprofile(token)
+        userVm.dataprofile.observe(viewLifecycleOwner) {
+            val fullname  = it.fullName
+         binding.welcome.text = "Welcome , $fullname"
+        }
 
         getdata(token)
 
@@ -98,6 +110,16 @@ class HomeFragment : Fragment() {
 //
 //        simulateAutomaticRefresh()
 
+        binding.etSearchProduct.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                selleradapter.filter(s.toString())
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
 
 
 
@@ -112,13 +134,16 @@ class HomeFragment : Fragment() {
         homeVm.getproductbyadmin(token)
 
         homeVm.dataproductbyadmin.observe(viewLifecycleOwner, Observer {
+            selleradapter.filteredList = it
+            selleradapter.listproduct= it
+
             binding.rvMain.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.VERTICAL, false
             )
-            if (it != null) {
-                binding.rvMain.adapter = SellerAdapter(requireContext(), it, homeVm, productVm)
-            }
+
+                binding.rvMain.adapter = selleradapter
+
 
 
         })

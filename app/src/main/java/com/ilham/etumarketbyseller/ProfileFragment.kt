@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -68,66 +69,51 @@ class ProfileFragment : Fragment() {
         storageRef = storage.reference
 
 
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
-            }
+//        databaseReference.addValueEventListener(object : ValueEventListener {
+//            override fun onCancelled(error: DatabaseError) {
+//                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val user = snapshot.getValue(User::class.java)
+//                binding.etUserName.setText(user!!.fullname)
+//
+//                if (user!!.profileImage == "") {
+//                    binding.uploadImage.setImageResource(R.drawable.profile)
+//                } else {
+//                    Glide.with(requireContext()).load(user.profileImage).into(binding.uploadImage)
+//                }
+//            }
+//        })
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val user = snapshot.getValue(User::class.java)
-                binding.etUserName.setText(user!!.fullname)
+//        binding.uploadImage.setOnClickListener {
+//            chooseImage()
+//        }
 
-                if (user!!.profileImage == "") {
-                    binding.uploadImage.setImageResource(R.drawable.profile)
-                } else {
-                    Glide.with(requireContext()).load(user.profileImage).into(binding.uploadImage)
-                }
-            }
-        })
 
-        binding.uploadImage.setOnClickListener {
-            chooseImage()
+
+        binding.btnUpdate.setOnClickListener {
+            updateprofile()
+//            uploadImage()
         }
+
+        getprofile()
+
+
 
         binding.btnLogout.setOnClickListener {
             val editor = pref.edit()
             editor.remove("token")
             editor.apply()
-
+            pref.edit().clear().apply()
             Navigation.findNavController(binding.root).navigate(R.id.action_profileFragment_to_loginFragment)
         }
 
-        binding.btnUpdate.setOnClickListener {
-            updateprofile()
-            uploadImage()
-        }
 
-        val getNama = pref.getString("fullname", "")
-        binding.txtFullname.setText(getNama)
 
-        val getEmail = pref.getString("email", "")
-        binding.txtEmail.setText(getEmail)
 
-        val getrole = pref.getString("role", "")
-        binding.txtRole.setText(getrole)
 
-        val getnomer = pref.getString("telephone", "")
-        binding.txtTelephone.setText(getnomer)
 
-        val getshopname = pref.getString("shopname", "")
-        binding.txtShopname.setText(getshopname)
-
-        userVm.responseupdateprofile.observe(viewLifecycleOwner){
-            binding.apply {
-                if (it != null){
-                    txtFullname.setText(it.fullName)
-                    txtTelephone.setText(it.telp)
-                    txtEmail.setText(it.email)
-                    txtShopname.setText(it.shopName)
-                    txtRole.setText(it.role)
-                }
-            }
-        }
 
 
     }
@@ -140,42 +126,46 @@ class ProfileFragment : Fragment() {
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode != null) {
-            filePath = data!!.data
-            try {
-                var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), filePath)
-                binding.uploadImage.setImageBitmap(bitmap)
-                binding.btnSimpan.visibility = View.VISIBLE
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
 
-    private fun uploadImage() {
-        if (filePath != null) {
 
-            var ref: StorageReference = storageRef.child("image/" + UUID.randomUUID().toString())
-            ref.putFile(filePath!!)
-                .addOnSuccessListener {
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == PICK_IMAGE_REQUEST && resultCode != null) {
+//            filePath = data!!.data
+//            try {
+//                var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), filePath)
+//                binding.uploadImage.setImageBitmap(bitmap)
+//                binding.btnSimpan.visibility = View.VISIBLE
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
-                    val hashMap:HashMap<String,String> = HashMap()
-                    hashMap.put("fullname",binding.etUserName.text.toString())
-                    hashMap.put("profileImage",filePath.toString())
-                    databaseReference.updateChildren(hashMap as Map<String, Any>)
-                    Toast.makeText(context, "Uploaded", Toast.LENGTH_SHORT).show()
-                    binding.btnSimpan.visibility = View.GONE
-                }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "Failed" + it.message, Toast.LENGTH_SHORT)
-                        .show()
 
-                }
 
-        }
-    }
+//    private fun uploadImage() {
+//        if (filePath != null) {
+//
+//            var ref: StorageReference = storageRef.child("image/" + UUID.randomUUID().toString())
+//            ref.putFile(filePath!!)
+//                .addOnSuccessListener {
+//
+//                    val hashMap:HashMap<String,String> = HashMap()
+//                    hashMap.put("fullname",binding.etUserName.text.toString())
+//                    hashMap.put("profileImage",filePath.toString())
+//                    databaseReference.updateChildren(hashMap as Map<String, Any>)
+//                    Toast.makeText(context, "Uploaded", Toast.LENGTH_SHORT).show()
+//                    binding.btnSimpan.visibility = View.GONE
+//                }
+//                .addOnFailureListener {
+//                    Toast.makeText(requireContext(), "Failed" + it.message, Toast.LENGTH_SHORT)
+//                        .show()
+//
+//                }
+//
+//        }
+//    }
 
 
 
@@ -191,9 +181,8 @@ class ProfileFragment : Fragment() {
 
         userVm.updateprofile(token,inputnama,inputemail,inputtelepon,inputrole, inputshopname)
 
-        val dataprofile = DataProfile(inputemail,inputnama,id,pass,inputrole,inputshopname,inputtelepon,0)
+//        val dataprofile = DataProfile(inputemail,inputnama,id,pass,inputrole,inputshopname,inputtelepon,0)
 
-        getprofile(dataprofile)
         userVm.responseupdateprofile.observe(viewLifecycleOwner){
             if (it != null) {
                 Toast.makeText(context, "Update Profile Berhasil", Toast.LENGTH_SHORT).show()
@@ -205,20 +194,26 @@ class ProfileFragment : Fragment() {
 
     }
 
-    fun getprofile(currentUser : DataProfile){
-        val sharedPref =pref.edit()
-        sharedPref.putString("email", currentUser.email)
-        sharedPref.putString("telephone", currentUser.telp)
-        sharedPref.putString("fullname", currentUser.fullName)
-        sharedPref.putString("password", currentUser.password)
-        sharedPref.putString("role", currentUser.role)
-        sharedPref.putString("shopname", currentUser.shopName)
-        sharedPref.putString("id", currentUser.id)
-        sharedPref.apply()
+    fun getprofile(){
+        val token = pref.getString("token", "").toString()
+
+        userVm.getprofile(token)
+
+        userVm.dataprofile.observe(viewLifecycleOwner){
+            binding.txtFullname.setText(it.fullName)
+            binding.txtTelephone.setText(it.telp)
+            binding.txtEmail.setText(it.email)
+            binding.txtShopname.setText(it.shopName)
+            binding.txtRole.setText(it.role)
+        }
 
 
 
     }
+
+
+
+
 
 
 

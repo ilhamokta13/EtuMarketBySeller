@@ -14,8 +14,10 @@ import com.ilham.etumarketbyseller.model.product.getproductadmin.DataAdmin
 import com.ilham.etumarketbyseller.viewmodel.HomeViewModel
 import com.ilham.etumarketbyseller.viewmodel.ProductViewModel
 
-class SellerAdapter(private val context: Context, private val listproduct: List<DataAdmin>, private val homeVm : HomeViewModel, private val productVm: ProductViewModel) : RecyclerView.Adapter<SellerAdapter.ViewHolder>() {
+class SellerAdapter(private val context: Context, var listproduct: List<DataAdmin>, private val homeVm : HomeViewModel, private val productVm: ProductViewModel) : RecyclerView.Adapter<SellerAdapter.ViewHolder>() {
     private val pref: SharedPreferences = context.getSharedPreferences("Success", Context.MODE_PRIVATE)
+
+    var filteredList: List<DataAdmin> = ArrayList()
     class ViewHolder(var binding : ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
 //        fun bindseller(itemSeller:DataAllProduct){
 //            binding.seller = itemSeller
@@ -89,9 +91,24 @@ class SellerAdapter(private val context: Context, private val listproduct: List<
 
 
     }
-
     override fun getItemCount(): Int {
         return  listproduct.size
 
+    }
+
+    fun filter(text: String) {
+        listproduct = if (text.isEmpty()) {
+            filteredList
+        } else {
+            val tempList = ArrayList<DataAdmin>()
+            for (item in filteredList) {
+                // Ganti dengan kriteria pencarian yang sesuai dengan kebutuhan Anda
+                if (item.nameProduct.contentEquals(text, ignoreCase = true) == true){
+                    tempList.add(item)
+                }
+            }
+            tempList
+        }
+        notifyDataSetChanged()
     }
 }

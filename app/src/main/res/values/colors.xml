@@ -12,6 +12,10 @@
 
     <color name="colorWhite">#fff</color>
 
+    <color name="grey">#C1C1C1</color>
+
+    <color name="colorText">#464646</color>
+
 
     <color name="DARKBLUE05">#4B1979</color>
     <color name="DARKBLUE04">#7126B5</color>
@@ -23,6 +27,8 @@
     <color name="colorItemLeft">#E6E4E4</color>
     <color name="colorItemRight">#813fd7</color>
     <color name="shimer">#DDDDDD</color>
+
+    <color name="primary">#003142</color>
 
 
 

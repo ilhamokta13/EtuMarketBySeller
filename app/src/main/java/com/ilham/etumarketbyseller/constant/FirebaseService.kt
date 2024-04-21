@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ilham.etumarketbyseller.R
 import com.ilham.etumarketbyseller.UserFragment
+import org.greenrobot.eventbus.EventBus
 import kotlin.random.Random
 
 class FirebaseService: FirebaseMessagingService() {
@@ -58,6 +59,8 @@ class FirebaseService: FirebaseMessagingService() {
             .build()
 
         notificationManager.notify(notificationId,notification)
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

@@ -10,7 +10,7 @@
         android:id="@+id/rvMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Homescreen"
+        android:layout_below="@+id/et_searchProduct"
         tools:listitem="@layout/item_list" />
 
     <TextView
@@ -50,6 +50,27 @@
         android:textSize="34sp"
         android:textStyle="bold" />
 
+    <EditText
+        android:id="@+id/et_searchProduct"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_below="@+id/Homescreen"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/blue"
+        android:drawableEnd="@drawable/ic_baseline_search_24"
+        android:fontFamily="@font/poppinsmedium"
+        android:hint="Cari produk"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:textColorHint="@color/black"
+        android:textSize="16sp" />
+
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -63,6 +84,8 @@
         android:contentDescription="add"
         app:backgroundTint="@color/blue"
         app:srcCompat="@drawable/ic_baseline_add_24" />
+
+
 
 
 </RelativeLayout>

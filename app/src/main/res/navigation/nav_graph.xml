@@ -19,6 +19,12 @@
         <action
             android:id="@+id/action_loginFragment_to_homeBuyerFragment"
             app:destination="@id/homeBuyerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_pilihanFragment"
+            app:destination="@id/pilihanFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -55,6 +61,9 @@
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_pilihanFragment"
+            app:destination="@id/pilihanFragment" />
     </fragment>
     <fragment
         android:id="@+id/chatFragment"
@@ -65,7 +74,11 @@
         android:id="@+id/listFragment"
         android:name="com.ilham.etumarketbyseller.ListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_listDetailFragment"
+            app:destination="@id/listDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ilham.etumarketbyseller.ProfileFragment"
@@ -113,4 +126,121 @@
         android:name="com.ilham.etumarketbyseller.buyer.HomeBuyerFragment"
         android:label="fragment_home_buyer"
         tools:layout="@layout/fragment_home_buyer" />
+    <fragment
+        android:id="@+id/pilihanFragment"
+        android:name="com.ilham.etumarketbyseller.PilihanFragment"
+        android:label="fragment_pilihan"
+        tools:layout="@layout/fragment_pilihan" >
+        <action
+            android:id="@+id/action_pilihanFragment_to_loginAdminFragment"
+            app:destination="@id/loginAdminFragment" />
+        <action
+            android:id="@+id/action_pilihanFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginAdminFragment"
+        android:name="com.ilham.etumarketbyseller.admin.LoginAdminFragment"
+        android:label="fragment_login_admin"
+        tools:layout="@layout/fragment_login_admin" >
+        <action
+            android:id="@+id/action_loginAdminFragment_to_registerAdminFragment"
+            app:destination="@id/registerAdminFragment" />
+        <action
+            android:id="@+id/action_loginAdminFragment_to_dataAdminFragment"
+            app:destination="@id/dataAdminFragment" />
+        <action
+            android:id="@+id/action_loginAdminFragment_to_homeAdminFragment"
+            app:destination="@id/homeAdminFragment" />
+        <action
+            android:id="@+id/action_loginAdminFragment_to_pilihanFragment"
+            app:destination="@id/pilihanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerAdminFragment"
+        android:name="com.ilham.etumarketbyseller.admin.RegisterAdminFragment"
+        android:label="fragment_register_admin"
+        tools:layout="@layout/fragment_register_admin" >
+        <action
+            android:id="@+id/action_registerAdminFragment_to_loginAdminFragment"
+            app:destination="@id/loginAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/dataAdminFragment"
+        android:name="com.ilham.etumarketbyseller.admin.DataAdminFragment"
+        android:label="DataAdminFragment" >
+        <action
+            android:id="@+id/action_dataAdminFragment_to_grafikFragment"
+            app:destination="@id/grafikFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragmentAdmin"
+        android:name="com.ilham.etumarketbyseller.admin.ProfileFragmentAdmin"
+        android:label="ProfileFragmentAdmin" />
+    <fragment
+        android:id="@+id/listDetailFragment"
+        android:name="com.ilham.etumarketbyseller.ListDetailFragment"
+        android:label="fragment_list_detail"
+        tools:layout="@layout/fragment_list_detail" />
+    <fragment
+        android:id="@+id/homeAdminFragment"
+        android:name="com.ilham.etumarketbyseller.admin.HomeAdminFragment"
+        android:label="fragment_home_admin"
+        tools:layout="@layout/fragment_home_admin" >
+        <action
+            android:id="@+id/action_homeAdminFragment_to_dataAdminFragment"
+            app:destination="@id/dataAdminFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_grafikFragment"
+            app:destination="@id/grafikFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_loginAdminFragment"
+            app:destination="@id/loginAdminFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_profileFragmentAdmin"
+            app:destination="@id/profileFragmentAdmin" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_userAdminFragment"
+            app:destination="@id/userAdminFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_detailAdminFragment"
+            app:destination="@id/detailAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/grafikFragment"
+        android:name="com.ilham.etumarketbyseller.admin.GrafikFragment"
+        android:label="fragment_grafik"
+        tools:layout="@layout/fragment_grafik" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.ilham.etumarketbyseller.admin.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/userAdminFragment"
+        android:name="com.ilham.etumarketbyseller.admin.UserAdminFragment"
+        android:label="fragment_user_admin"
+        tools:layout="@layout/fragment_user_admin" >
+        <action
+            android:id="@+id/action_userAdminFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailAdminFragment"
+        android:name="com.ilham.etumarketbyseller.admin.DetailAdminFragment"
+        android:label="fragment_detail_admin"
+        tools:layout="@layout/fragment_detail_admin" >
+        <action
+            android:id="@+id/action_detailAdminFragment_to_grafikFragment"
+            app:destination="@id/grafikFragment" />
+    </fragment>
 </navigation>

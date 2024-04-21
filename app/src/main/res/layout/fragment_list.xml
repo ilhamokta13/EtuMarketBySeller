@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/et_searchProduct"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_baseline_search_24"
+            android:fontFamily="@font/nunitosemibold"
+            android:hint="Cari produk"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:textSize="15sp" />
+
+        <!-- Change the below RecyclerView layout_marginTop -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewItemRiwayat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+            tools:listitem="@layout/item_pesanan"
+        android:layout_below="@id/et_searchProduct" />  <!-- Add this line to position RecyclerView below EditText -->
+
+    </RelativeLayout>
+
+</LinearLayout>

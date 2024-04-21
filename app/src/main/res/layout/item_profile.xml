@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/txtNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:background="@drawable/border_right_bottom"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="No"
+        android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/txtshopName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:background="@drawable/border_right_bottom"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Nama Toko"
+        android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/txtTelp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:background="@drawable/border_right_bottom"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Telepon"
+        android:textColor="#000" />
+
+    <TextView
+        android:id="@+id/txtNamaKetua"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:background="@drawable/border_right_bottom"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Nama Ketua"
+        android:textColor="#000" />
+
+</LinearLayout>
