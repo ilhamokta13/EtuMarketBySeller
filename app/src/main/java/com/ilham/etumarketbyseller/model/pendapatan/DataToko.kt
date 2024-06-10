@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class DataToko(
     @SerializedName("sellerID")
     val sellerID: String,
-    @SerializedName("sellerName")
-    val sellerName: String,
+    @SerializedName("shopName")
+    val shopName: String,
     @SerializedName("totalPendapatan")
     val totalPendapatan: Int,
     @SerializedName("transaksi")

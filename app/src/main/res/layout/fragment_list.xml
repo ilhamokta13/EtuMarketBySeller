@@ -28,16 +28,57 @@
             android:paddingEnd="20dp"
             android:textSize="15sp" />
 
-        <!-- Change the below RecyclerView layout_marginTop -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/filterCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_searchProduct"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <!-- ImageView filter status pesanan -->
+                <ImageView
+                    android:id="@+id/iv_filterStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_filter" />
+
+                <!-- Teks "Status Pesanan" -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status Pesanan"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="8dp"/>
+
+                <!-- Spinner -->
+                <Spinner
+                    android:id="@+id/statusFilterSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewItemRiwayat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
-        android:layout_marginBottom="8dp"
+            android:layout_marginBottom="8dp"
             tools:listitem="@layout/item_pesanan"
-        android:layout_below="@id/et_searchProduct" />  <!-- Add this line to position RecyclerView below EditText -->
+            android:layout_below="@id/filterCardView" />
 
     </RelativeLayout>
 

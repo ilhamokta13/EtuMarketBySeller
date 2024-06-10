@@ -49,7 +49,7 @@ class GrafikFragment : Fragment() {
 
             data.forEachIndexed { index, dataToko ->
                 list.add(BarEntry(index.toFloat(), dataToko.totalPendapatan.toFloat()))
-                sellerNames.add(dataToko.sellerName)
+                sellerNames.add(dataToko.shopName)
             }
 
             val barDataSet = BarDataSet(list, "Total Pendapatan")

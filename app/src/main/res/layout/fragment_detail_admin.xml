@@ -36,18 +36,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/welcome"
-        android:gravity="center_horizontal"
         android:background="@color/blue"
+        android:gravity="center_horizontal"
         android:text="Home"
         android:textColor="#151515"
         android:textSize="34sp"
         android:textStyle="bold" />
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pendapatansemua"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Homescreen"
+        android:backgroundTint="@color/blue">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/EtuPays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ETU Pays : "
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="#000" />
+            <Button
+                android:id="@+id/btn_grafik"
+                style="@style/Btn"
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/purple_700"
+                android:minWidth="40dp"
+                android:minHeight="40dp"
+                android:padding="10dp"
+                android:text="Lihat Grafik Penjualan Per Toko"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Berikut nama-nama usaha yang terdaftar : "
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:layout_marginTop="8dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Homescreen"
+        android:layout_below="@+id/pendapatansemua"
         tools:listitem="@layout/item_admin" />
 
 

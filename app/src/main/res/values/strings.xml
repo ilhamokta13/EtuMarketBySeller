@@ -6,12 +6,17 @@
     <string name="type_your_message">type your message...</string>
 
 
+    <!-- Other string resources -->
+    <string name="default_notification_channel_id">default_channel</string>
+
+    <string name="fcm_message">New Order Notification</string>
+
+
     <string-array name="category">
-        <item>Makanan</item>
-        <item>Minuman</item>
+        <item>Desain Kreatif</item>
+        <item>Jasa dan Dagang</item>
         <item>Technopreneur</item>
-        <item>Sociopreneur</item>
-        <item>Ecopreneur</item>
+        <item>Kuliner</item>
     </string-array>
 
     <string-array name="dropdown_items">
@@ -23,6 +28,16 @@
     <string-array name="Role">
         <item>Seller</item>
         <item>Customer</item>
+    </string-array>
+
+    <string-array name="status_array">
+        <item>Dikemas</item>
+        <item>Dikirim</item>
+        <item>Selesai</item>
+        <item>Dibatalkan</item>
+        <item>Paid</item>
+        <item>CashOnDelivery</item>
+        <item>Pending</item>
     </string-array>
 
     <string name="tentang_kami">Entrepreneurship Training Unit / ETU berlokasi di Politeknik Negeri Malang adalah sebuah unit pengelola kewirausahaan yang bertugas memfasilitasi semua kegiatan kewirausahaaan mahasiswa yang terdiri pendidikan, pelatihan, seminar, pemberian modal usaha, konsultasi hingga pendampingan usaha. ETU Polinema berdiri pada 23 Agustus 2006. Seiring dengan berjalannya waktu, kegiatan yang dikelola ETU semakin luas. Saat ini ETU juga mengelola posdaya, menjadi konsultan UMKM binaan posdaya polinema dan bekerja sama dengan beberapa institusi pemerintah untuk memberikan pelatihan. ETU polinema memiliki visi dan misi

@@ -47,7 +47,7 @@ class HomeAdminFragment : Fragment() {
         adminVm = ViewModelProvider(this).get(AdminViewModel::class.java)
 
         binding.cardHome.setOnClickListener {
-            findNavController().navigate(R.id.action_homeAdminFragment_to_dataAdminFragment)
+            findNavController().navigate(R.id.action_homeAdminFragment_to_aboutUsFragment)
         }
 
         binding.cardChat.setOnClickListener {

@@ -1,13 +1,17 @@
 package com.ilham.etumarketbyseller.model.chat
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -47,6 +51,32 @@ class ChatAdapter(private val context: Context, private val chatList:ArrayList<C
             holder.txtUserName.visibility = View.VISIBLE
             holder.imgMessage.visibility = View.GONE
             holder.txtUserName.text = chat.message
+
+            holder.txtUserName.setOnLongClickListener {
+                // Salin teks pesan ke Clipboard
+                copyToClipboard(chat.message)
+                // Tampilkan pesan toast bahwa pesan telah disalin
+                showToast("Pesan disalin")
+                true
+            }
+
+            // Tambahkan Linkify untuk mendeteksi tautan dalam teks dan membuatnya dapat diklik
+            Linkify.addLinks(holder.txtUserName, Linkify.WEB_URLS)
+
+            holder.txtUserName.setOnClickListener {
+                // Dapatkan teks dari TextView menggunakan parameter lambda
+                val url = holder.txtUserName.text.toString()
+                // Buat Intent untuk membuka tautan dalam aplikasi lain
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                // Periksa apakah ada aplikasi yang dapat menangani tautan
+                if (intent.resolveActivity(context.packageManager) != null) {
+                    // Buka tautan dalam aplikasi lain
+                    context.startActivity(intent)
+                } else {
+                    // Jika tidak ada aplikasi yang dapat menangani tautan, buka tautan di browser default
+                    showToast("Tidak ada aplikasi yang dapat menangani tautan")
+                }
+            }
         } else {
             // Image message
             holder.txtUserName.visibility = View.GONE
@@ -65,12 +95,20 @@ class ChatAdapter(private val context: Context, private val chatList:ArrayList<C
         return chatList.size
     }
 
-    private fun viewOrDownloadImage(imageUrl: String) {
-        // You can implement the logic to view or download the image here
-        // For example, open the image in a new activity or download it to the device
-        // You can use an image loading library like Glide or Picasso for a smoother experience
-        // For simplicity, you can use the following code to open the image in the default browser:
 
+    // Fungsi untuk menyalin teks ke Clipboard
+    private fun copyToClipboard(text: String) {
+        val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("text", text)
+        clipboardManager.setPrimaryClip(clipData)
+    }
+
+    // Fungsi untuk menampilkan pesan toast
+    private fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun viewOrDownloadImage(imageUrl: String) {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.data = Uri.parse(imageUrl)
         context.startActivity(intent)

@@ -29,9 +29,11 @@ class AdminAdapter(private val listadmin: List<DataToko>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataItem = listadmin[position]
         val transaksi = dataItem.transaksi.firstOrNull() ?: return
-        holder.binding.NamaToko.text = dataItem.sellerName
+        holder.binding.NamaToko.text = dataItem.shopName
         holder.binding.TotalPendapatan.text = dataItem.totalPendapatan.toString()
         holder.binding.Kategori.text = transaksi.product.category
+
+
 
         holder.binding.dropdownButton.setOnClickListener {
             if (holder.binding.detailRecyclerView.visibility == View.VISIBLE) {
@@ -46,9 +48,7 @@ class AdminAdapter(private val listadmin: List<DataToko>) : RecyclerView.Adapter
         val detailAdapter = ListAdminAdapter(listOf()) // Awalnya kosong
         holder.binding.detailRecyclerView.adapter = detailAdapter
 
-        holder.binding.btnDetail.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.action_detailAdminFragment_to_grafikFragment)
-        }
+
 
 
 
@@ -83,6 +83,8 @@ class AdminAdapter(private val listadmin: List<DataToko>) : RecyclerView.Adapter
     override fun getItemCount(): Int {
         return listadmin.size
     }
+
+
 
 
 

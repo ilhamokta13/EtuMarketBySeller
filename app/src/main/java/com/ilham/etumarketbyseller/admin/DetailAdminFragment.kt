@@ -20,6 +20,7 @@ import com.ilham.etumarketbyseller.SellerAdapter
 import com.ilham.etumarketbyseller.databinding.FragmentDetailAdminBinding
 import com.ilham.etumarketbyseller.datastore.SettingPreferences
 import com.ilham.etumarketbyseller.datastore.ViewModelFactory
+import com.ilham.etumarketbyseller.model.pendapatan.DataToko
 import com.ilham.etumarketbyseller.viewmodel.AdminViewModel
 import com.ilham.etumarketbyseller.viewmodel.HomeViewModel
 import com.ilham.etumarketbyseller.viewmodel.SettingViewModel
@@ -64,11 +65,17 @@ class DetailAdminFragment : Fragment() {
 
 
 
+
+
         binding.btnLogout.setOnClickListener {
             val editor = pref.edit()
             editor.remove("token")
             editor.apply()
-            findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_detailAdminFragment_to_loginAdminFragment)
+        }
+
+        binding.btnGrafik.setOnClickListener {
+            findNavController().navigate(R.id.action_detailAdminFragment_to_grafikFragment)
         }
 
         getdata(token)
@@ -82,6 +89,9 @@ class DetailAdminFragment : Fragment() {
 
 
     }
+
+
+
 
     private fun createSettingViewModel(pref: SettingPreferences): SettingViewModel {
         return ViewModelProvider(this, ViewModelFactory(pref))[SettingViewModel::class.java]
@@ -103,6 +113,7 @@ class DetailAdminFragment : Fragment() {
         adminVm.DatapendapatanToko(token)
 
         adminVm.datapendapatanToko.observe(viewLifecycleOwner, Observer {
+            binding.EtuPays.text = "ETU Pays : ${calculateTotalPendapatan(it)}"
 
 
             binding.rvMain.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false
@@ -116,6 +127,11 @@ class DetailAdminFragment : Fragment() {
 
         })
     }
+
+    fun calculateTotalPendapatan(cartItems: List<DataToko>?): Int {
+        return cartItems?.sumBy { it.totalPendapatan} ?: 0
+    }
+
 
 
 

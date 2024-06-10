@@ -157,6 +157,25 @@
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Upload Foto Barang Sudah Dikirim"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/uploadImage"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/uploadimg" />
+
 
                     <RadioGroup
                         android:id="@+id/rg_statusPesanan"
@@ -168,47 +187,34 @@
                         >
 
                         <RadioButton
-                            android:id="@+id/pending"
+                            android:id="@+id/dikemas"
                             android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pending"
+                            android:text="Dikemas"
                             />
 
                         <RadioButton
-                            android:id="@+id/paid"
+                            android:id="@+id/dikirim"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Paid"
+                            android:text="Dikirim"
                             android:textColor="@color/black" />
 
                         <RadioButton
-                            android:id="@+id/Ondelivery"
+                            android:id="@+id/selesai"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="On Delivery"
+                            android:text="Selesai"
                             android:textColor="@color/black" />
 
                         <RadioButton
-                            android:id="@+id/Delivered"
+                            android:id="@+id/dibatalkan"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Delivered"
+                            android:text="Dibatalkan"
                             android:textColor="@color/black" />
 
-                        <RadioButton
-                            android:id="@+id/Expired"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Expired"
-                            android:textColor="@color/black" />
-
-                        <RadioButton
-                            android:id="@+id/Failed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Failed"
-                            android:textColor="@color/black" />
                     </RadioGroup>
 
                     <TextView

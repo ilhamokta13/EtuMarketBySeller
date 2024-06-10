@@ -14,6 +14,7 @@
     app:cardElevation="8dp">
 
     <RelativeLayout
+        android:id="@+id/itemlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/blue">
@@ -36,7 +37,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/imagePesananRiwayat"
             android:text="NamaMenu"
             android:textColor="@color/black"
@@ -55,10 +56,34 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/recTelpon"
+            android:id="@+id/recStatusPembayaran"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recNamaPembeli"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/imagePesananRiwayat"
+            android:text="Status Pembayaran"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/recStatusPesanan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recStatusPembayaran"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/imagePesananRiwayat"
+            android:text="Status Pesanan"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/recTelpon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recStatusPesanan"
             android:layout_marginStart="18dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@id/imagePesananRiwayat"
@@ -67,11 +92,35 @@
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/recOngkir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recTelpon"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/imagePesananRiwayat"
+            android:text="Biaya Ongkir : "
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+
+        <Button
+            android:id="@+id/lihatshareloc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recOngkir"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@id/imagePesananRiwayat"
+            android:text="Lihat Lokasi Pengiriman" />
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/recTittleRiwayat"
             android:layout_marginStart="18dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/imagePesananRiwayat"
             android:text="Rp."
             android:textColor="@color/black"
@@ -83,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/recTittleRiwayat"
             android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/imagePesananRiwayat"
             android:text="Harga"
             android:textColor="@color/black"
@@ -100,6 +149,10 @@
             android:text="x1"
             android:textColor="@color/black"
             android:textSize="20dp" />
+
+
+
+
 
 
     </RelativeLayout>

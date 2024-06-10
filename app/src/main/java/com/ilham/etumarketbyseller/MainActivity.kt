@@ -61,12 +61,22 @@ class MainActivity : AppCompatActivity() {
 
     navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.splashFragment, R.id.loginFragment, R.id.registerFragment, R.id.addProductSellerFragment, R.id.pilihanFragment,R.id.editFragment, R.id.loginAdminFragment, R.id.registerAdminFragment, R.id.dataAdminFragment, R.id.homeAdminFragment, R.id.grafikFragment, R.id.listDetailFragment, R.id.userAdminFragment, R.id.profileFragmentAdmin, R.id.detailAdminFragment, R.id.settingFragment-> {
+                R.id.splashFragment, R.id.loginFragment, R.id.registerFragment, R.id.addProductSellerFragment, R.id.pilihanFragment,R.id.editFragment, R.id.loginAdminFragment, R.id.registerAdminFragment, R.id.dataAdminFragment, R.id.homeAdminFragment, R.id.grafikFragment, R.id.listDetailFragment, R.id.userAdminFragment, R.id.profileFragmentAdmin, R.id.detailAdminFragment, R.id.settingFragment, R.id.aboutUsFragment-> {
                     binding.bottomnav.visibility = View.GONE
                 }
                 else -> {
                     binding.bottomnav.visibility = View.VISIBLE
                 }
+            }
+        }
+
+
+        if (intent.hasExtra("fragment")) {
+            val fragment = intent.getStringExtra("fragment")
+            if (fragment == "listFragment") {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerView, ListFragment())
+                    .commit()
             }
         }
 

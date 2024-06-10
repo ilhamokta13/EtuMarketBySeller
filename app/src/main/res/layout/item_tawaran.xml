@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recCard"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginHorizontal="5dp"
+    android:background="@color/blue"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp">
+
+    <RelativeLayout
+        android:id="@+id/itemlist"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/blue">
+
+
+        <TextView
+            android:id="@+id/recNamaProduk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="20dp"
+            android:text="Nama Produk"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/recStatusTawaran"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recNamaProduk"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:text="Status Tawaran"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/recHarga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recStatusTawaran"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="10dp"
+            android:text="HargaTawaran"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+
+        <TextView
+            android:id="@+id/recOngkir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recHarga"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:textSize="20dp" />
+
+
+        <Button
+            android:id="@+id/cekstatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recOngkir"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Cek Status Tawaran" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

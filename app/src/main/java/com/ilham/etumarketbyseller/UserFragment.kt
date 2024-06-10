@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Base64
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,14 +17,17 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.google.firebase.database.R
 import com.google.firebase.messaging.FirebaseMessaging
 import com.ilham.etumarketbyseller.constant.FirebaseService
 import com.ilham.etumarketbyseller.databinding.FragmentUserBinding
 import com.ilham.etumarketbyseller.model.chat.User
 import com.ilham.etumarketbyseller.model.chat.UserAdapter
+import org.json.JSONObject
 import java.io.IOException
 
 
@@ -49,48 +53,63 @@ class UserFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        pref = requireActivity().getSharedPreferences("Berhasil", Context.MODE_PRIVATE)
-        FirebaseService.sharedPref = requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)
+        pref = requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)
+        FirebaseService.sharedPref = requireActivity().getSharedPreferences("Berhasil", Context.MODE_PRIVATE)
 
 
+        val token = pref.getString("token", "").toString()
+
+        if (token.isEmpty() || isTokenExpired(token)) {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Login Required")
+                .setMessage("Your session has expired. Please login again.")
+                .setCancelable(false)
+                .setPositiveButton("Login") { dialog, which ->
+                    findNavController().navigate(com.ilham.etumarketbyseller.R.id.action_userFragment_to_loginFragment)
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    // Tetap di halaman user
+                }
+                .show()
+        } else {
+            initializeFirebaseMessaging()
+            setupRecyclerView()
+            getUsersList()
+        }
+
+
+
+
+
+
+
+//        binding.imgBack.setOnClickListener {
+//
+//        }
+//
+//        binding.imgProfile.setOnClickListener {
+//            findNavController().navigate(R.id.action_userFragment_to_profileFragment2)
+//        }
+
+        getUsersList()
+    }
+
+
+    private fun setupRecyclerView() {
+        binding.userRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun initializeFirebaseMessaging() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (task.result != null && !TextUtils.isEmpty(task.result)) {
                         val token: String = task.result!!
+                        // Lakukan sesuatu dengan token jika perlu
                     }
                 }
             }
-
-        binding.userRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-        binding.imgProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_userFragment_to_profileFragment)
-        }
-
-
-            getUsersList()
-
-
-
-
-
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode != null) {
-            filePath = data!!.data
-            try {
-                var bitmap: Bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), filePath)
-                binding.imgProfile.setImageBitmap(bitmap)
-//                binding.btnSimpan.visibility = View.VISIBLE
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
 
     fun getUsersList() {
         val firebase: FirebaseUser = FirebaseAuth.getInstance().currentUser!!
@@ -112,7 +131,7 @@ class UserFragment : Fragment() {
                 userList.clear()
                 val currentUser = snapshot.getValue(User::class.java)
                 if (currentUser!!.profileImage == ""){
-                    binding.imgProfile.setImageResource(R.drawable.profile)
+                    binding.imgProfile.setImageResource(com.ilham.etumarketbyseller.R.drawable.profile)
                 }else{
                     Glide.with(requireActivity()).load(currentUser.profileImage).into(binding.imgProfile)
                 }
@@ -127,16 +146,31 @@ class UserFragment : Fragment() {
                 }
 
 
+                binding.userRecyclerView.layoutManager = LinearLayoutManager(context,
+                    LinearLayoutManager.VERTICAL,false)
 
-                val userAdapter = UserAdapter(context!!, userList)
-
-
-
-                binding.userRecyclerView.adapter =userAdapter
+                binding.userRecyclerView.adapter = UserAdapter(context!!,userList)
             }
 
         })
     }
+
+
+    fun isTokenExpired(token: String): Boolean {
+        try {
+            val split = token.split(".")
+            val decodedBytes = Base64.decode(split[1], Base64.URL_SAFE)
+            val decodedString = String(decodedBytes, Charsets.UTF_8)
+            val jsonObject = JSONObject(decodedString)
+            val exp = jsonObject.getLong("exp")
+            val currentTime = System.currentTimeMillis() / 1000
+            return currentTime > exp
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return true // Jika terjadi kesalahan, anggap token sudah kedaluwarsa
+    }
+
 
 
 }

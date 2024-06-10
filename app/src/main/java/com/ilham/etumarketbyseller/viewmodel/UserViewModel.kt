@@ -7,6 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.ilham.etumarketbyseller.model.ResponseRegister
 import com.ilham.etumarketbyseller.model.login.LoginBody
 import com.ilham.etumarketbyseller.model.login.ResponseLogin
+import com.ilham.etumarketbyseller.model.product.status.PostForgotPass
+import com.ilham.etumarketbyseller.model.product.status.PostNewPassword
+import com.ilham.etumarketbyseller.model.product.status.ResponseForgotPass
+import com.ilham.etumarketbyseller.model.product.status.ResponseNewPass
 import com.ilham.etumarketbyseller.model.profile.DataProfile
 import com.ilham.etumarketbyseller.model.profile.UpdateProfileResponse
 import com.ilham.etumarketbyseller.model.profile.allprofile.AllProfileResponse
@@ -86,6 +90,77 @@ class UserViewModel @Inject constructor(private val api : ApiService) : ViewMode
 
     fun updateprofile(token: String, fullName: String, email: String, telp: String, role: String, shopName:String){
         api.updateprofile("Bearer $token", fullName, email, telp, role, shopName).enqueue(object : Callback<UpdateProfileResponse>{
+            override fun onResponse(
+                call: Call<UpdateProfileResponse>,
+                response: Response<UpdateProfileResponse>
+            ) {
+                if (response.isSuccessful) {
+                    _responseupdateprofile.value = response.body()!!.data
+
+                } else {
+                    Log.e("Update Profile", "${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
+                Log.e("Update Profile Null", "Cannot get data update profile")
+            }
+
+        })
+
+    }
+
+    private val _responseforgotpass : MutableLiveData<ResponseForgotPass> = MutableLiveData()
+    val responseforgotpass : LiveData<ResponseForgotPass> = _responseforgotpass
+    fun forgotpass(forgotPass: PostForgotPass){
+        api.forgotpass(forgotPass).enqueue(object : Callback<ResponseForgotPass>{
+            override fun onResponse(
+                call: Call<ResponseForgotPass>,
+                response: Response<ResponseForgotPass>
+            ) {
+                if (response.isSuccessful) {
+                    _responseforgotpass.value = response.body()
+
+                } else {
+                    Log.e("ForgotPass", "${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseForgotPass>, t: Throwable) {
+                Log.e("ForgotPass2", "Cannot get data")
+            }
+
+        })
+    }
+
+
+    private val _responsenewpass : MutableLiveData<ResponseNewPass> = MutableLiveData()
+    val responsenewpass : LiveData<ResponseNewPass> = _responsenewpass
+
+    fun newpassword(postNewPassword: PostNewPassword){
+        api.newpass(postNewPassword).enqueue(object : Callback<ResponseNewPass>{
+            override fun onResponse(
+                call: Call<ResponseNewPass>,
+                response: Response<ResponseNewPass>
+            ) {
+                if (response.isSuccessful) {
+                    _responsenewpass.value = response.body()
+
+                } else {
+                    Log.e("ResponsePassword", "${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseNewPass>, t: Throwable) {
+                Log.e("NewPassword2", "Cannot post data new pass")
+            }
+
+        })
+    }
+
+
+    fun updateemail(token: String, email: String){
+        api.updateprofileemail("Bearer $token", email).enqueue(object : Callback<UpdateProfileResponse>{
             override fun onResponse(
                 call: Call<UpdateProfileResponse>,
                 response: Response<UpdateProfileResponse>

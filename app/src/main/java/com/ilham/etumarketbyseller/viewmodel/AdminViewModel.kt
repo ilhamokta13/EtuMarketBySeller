@@ -11,10 +11,10 @@ import com.ilham.etumarketbyseller.model.pendapatan.DataToko
 import com.ilham.etumarketbyseller.model.pendapatan.GetPendapatanToko
 import com.ilham.etumarketbyseller.model.product.listpesanan.DataPesanan
 import com.ilham.etumarketbyseller.model.product.listpesanan.GetPesananResponse
-import com.ilham.etumarketbyseller.model.product.status.PostUpdateStatus
 import com.ilham.etumarketbyseller.model.product.status.ResponseUpdateStatus
 import com.ilham.etumarketbyseller.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -67,12 +67,15 @@ class AdminViewModel @Inject constructor(private val api : ApiService) : ViewMod
                         transaction.products.forEach{ product->
                             // Membuat objek DataHistory baru untuk setiap produk dalam transaksi
                             val dataHistory = DataPesanan(
-                                transaction.id,
+                                transaction.destination,
                                 transaction.kodeTransaksi,
                                 listOf(product),
+                                transaction.shippingCost,
+                                transaction.status,
                                 transaction.total,// Menggunakan listOf(product) untuk menambahkan produk ke dalam list products
-                                transaction.user,
-                                transaction.v  // Memastikan properti __v juga disertakan jika diperlukan
+                                transaction.transaksiId,
+                                transaction.user
+                                      // Memastikan properti __v juga disertakan jika diperlukan
                             )
                             // Menambahkan objek DataHistory ke daftar riwayat
                             historyList.add(dataHistory)
@@ -95,8 +98,29 @@ class AdminViewModel @Inject constructor(private val api : ApiService) : ViewMod
     private val liveUpdateStatus : MutableLiveData<ResponseUpdateStatus> = MutableLiveData()
     val dataupdatestatus : LiveData<ResponseUpdateStatus> = liveUpdateStatus
 
-    fun updateStatus(token: String, postUpdateStatus: PostUpdateStatus) {
-        api.poststatus("Bearer $token", postUpdateStatus).enqueue(object : Callback<ResponseUpdateStatus>{
+    fun updateStatus(token: String, kode_transaksi:String,productID:String,status:String) {
+        api.poststatus("Bearer $token",kode_transaksi, productID, status).enqueue(object : Callback<ResponseUpdateStatus>{
+            override fun onResponse(
+                call: Call<ResponseUpdateStatus>,
+                response: Response<ResponseUpdateStatus>
+            ) {
+                if (response.isSuccessful) {
+                    liveUpdateStatus.value = response.body()
+                } else {
+                    Log.e("AdminViewMo2", "${response.errorBody()?.string()}")
+
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseUpdateStatus>, t: Throwable) {
+                Log.e("AdminViewMo", "Null Post Update Status")
+            }
+
+        })
+    }
+
+    fun updateStatusimage(token: String, image : MultipartBody.Part) {
+        api.poststatusimage("Bearer $token", image).enqueue(object : Callback<ResponseUpdateStatus>{
             override fun onResponse(
                 call: Call<ResponseUpdateStatus>,
                 response: Response<ResponseUpdateStatus>

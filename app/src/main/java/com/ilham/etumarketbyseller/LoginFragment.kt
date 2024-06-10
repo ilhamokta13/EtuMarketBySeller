@@ -19,6 +19,7 @@ import com.ilham.etumarketbyseller.model.DataRegister
 import com.ilham.etumarketbyseller.model.login.LoginBody
 import com.ilham.etumarketbyseller.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -46,19 +47,19 @@ class LoginFragment : Fragment() {
 
 
         binding.login.setOnClickListener {
-            if (binding.etEmail.text.toString().isEmpty()) {
-                binding.etEmail.setError("Isi Username")
-            } else if (binding.etPassword.text.toString().isEmpty()) {
-                binding.etPassword.setError("Isi Password")
-            } else if (binding.etPassword.text.toString().length < 6) {
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            if (email.isEmpty()) {
+                binding.etEmail.error = "Isi Username"
+            } else if (!isValidEmail(email)) {
+                Toast.makeText(context, "Email salah", Toast.LENGTH_SHORT).show()
+            } else if (password.isEmpty()) {
+                binding.etPassword.error = "Isi Password"
+            } else if (password.length < 6) {
                 Toast.makeText(context, "Password kurang dari 6 karakter", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                login()
-
-
-
-
+            } else {
+                login(email,password)
             }
         }
 
@@ -67,6 +68,9 @@ class LoginFragment : Fragment() {
                 .navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
+        binding.lupaPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_resetPassFragment)
+        }
 
         binding.ivBack.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_pilihanFragment)
@@ -83,9 +87,16 @@ class LoginFragment : Fragment() {
 
     }
 
-    fun login() {
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailPattern = Pattern.compile(
+            "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        )
+        return emailPattern.matcher(email).matches()
+    }
+
+    private fun login(email : String, password:String) {
+
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -108,7 +119,11 @@ class LoginFragment : Fragment() {
                             } else {
                                 // Tambahkan toast jika login gagal karena username atau password salah
                                 if (response.message == "Invalid email or password") {
-                                    Toast.makeText(context, "Username atau Password Salah", Toast.LENGTH_SHORT).show()
+                                    if (response.message == "Email not found") {
+                                        Toast.makeText(context, "Email not found", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "Wrong password", Toast.LENGTH_SHORT).show()
+                                    }
                                 } else {
                                     Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
                                 }
@@ -120,14 +135,16 @@ class LoginFragment : Fragment() {
                         Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Firebase authentication failed
-                    Toast.makeText(context, "Firebase Authentication Failed", Toast.LENGTH_SHORT).show()
+                    val exception = task.exception
+                    if (exception != null) {
+                        if (exception.message?.contains("password") == true) {
+                            Toast.makeText(context, "Password salah", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Firebase Authentication Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
-
-
-
-
     }
 
 

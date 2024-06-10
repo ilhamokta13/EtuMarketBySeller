@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.ilham.etumarketbyseller.databinding.FragmentDetailBinding
 import com.ilham.etumarketbyseller.model.product.getproductadmin.DataAdmin
@@ -56,6 +57,12 @@ class DetailFragment : Fragment() {
         binding.welcome.text = "Welcome, $fullname!"
         Log.d("Homescreen", "Username : $fullname")
 
+        binding.cekstatus.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("idtawar", idProduct)
+            findNavController().navigate(R.id.action_detailFragment_to_tawaranHargaFragment, bundle)
+        }
+
 
 
     }
@@ -75,15 +82,37 @@ class DetailFragment : Fragment() {
 
                     val geocoder = Geocoder(requireContext(), Locale.getDefault())
                     try {
-                        val addresses: List<Address> = geocoder.getFromLocation(lon, lat, 1) as List<Address>
+                        // Define valid ranges for latitude and longitude
+                        val MIN_LATITUDE = -90.0
+                        val MAX_LATITUDE = 90.0
+                        val MIN_LONGITUDE = -180.0
+                        val MAX_LONGITUDE = 180.0
+
+                        // Validate latitude and longitude values
+                        if (lat !in MIN_LATITUDE..MAX_LATITUDE) {
+                            throw IllegalArgumentException("Latitude is out of range: $lat")
+                        }
+                        if (lon !in MIN_LONGITUDE..MAX_LONGITUDE) {
+                            throw IllegalArgumentException("Longitude is out of range: $lon")
+                        }
+
+                        // Proceed with geocoding if values are valid
+                        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1) as List<Address>
                         if (addresses.isNotEmpty()) {
                             val locName: String = addresses[0].getAddressLine(0)
                             binding.tvLocation.text = locName
                             productVm.saveLocation(locName)
                         }
+                    } catch (e: IllegalArgumentException) {
+                        e.printStackTrace()
+                        // Handle invalid latitude or longitude error
+                        // For example, show an error message to the user
+                        binding.tvLocation.text = "Invalid latitude or longitude."
                     } catch (e: IOException) {
                         e.printStackTrace()
+                        // Handle other IOExceptions
                     }
+
                 } else {
                     Toast.makeText(context, "Alamat Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                 }

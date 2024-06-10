@@ -174,22 +174,44 @@ class EditFragment : Fragment() {
         } else {
             fusedLocProvClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
-                    binding.longitude.text = location.latitude.toString()
-                    binding.latitude.text = location.longitude.toString()
+                    binding.longitude.text = location.longitude.toString()
+                    binding.latitude.text = location.latitude.toString()
                     binding.altitude.text = location.altitude.toString()
                     binding.edAcc.text = "${location.accuracy}%"
 
                     val geocoder = Geocoder(requireContext(), Locale.getDefault())
                     try {
+                        // Define valid ranges for latitude and longitude
+                        val MIN_LATITUDE = -90.0
+                        val MAX_LATITUDE = 90.0
+                        val MIN_LONGITUDE = -180.0
+                        val MAX_LONGITUDE = 180.0
+
+                        // Validate latitude and longitude values
+                        if (location.latitude !in MIN_LATITUDE..MAX_LATITUDE) {
+                            throw IllegalArgumentException("Latitude is out of range: ${location.latitude}")
+                        }
+                        if (location.longitude !in MIN_LONGITUDE..MAX_LONGITUDE) {
+                            throw IllegalArgumentException("Longitude is out of range: ${location.longitude}")
+                        }
+
+                        // Proceed with geocoding if values are valid
                         val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1) as List<Address>
                         if (addresses.isNotEmpty()) {
                             val locName: String = addresses[0].getAddressLine(0)
                             binding.uploadlocation.text = locName
                             productVm.saveLocation(locName)
                         }
+                    } catch (e: IllegalArgumentException) {
+                        e.printStackTrace()
+                        // Handle invalid latitude or longitude error
+                        // For example, show an error message to the user
+                        binding.uploadlocation.text = "Invalid latitude or longitude."
                     } catch (e: IOException) {
                         e.printStackTrace()
+                        // Handle other IOExceptions
                     }
+
                 } else {
                     Toast.makeText(context, "Alamat Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                 }
@@ -439,7 +461,7 @@ class EditFragment : Fragment() {
 
                  val geocoder = Geocoder(requireContext(), Locale.getDefault())
                  try {
-                     val addresses: List<Address> = geocoder.getFromLocation(lon, lat, 1) as List<Address>
+                     val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1) as List<Address>
                      if (addresses.isNotEmpty()) {
                          val locName: String = addresses[0].getAddressLine(0)
                          binding.uploadlocation.text = locName

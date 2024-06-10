@@ -121,6 +121,15 @@
                 android:textSize="20sp"
                 android:text="Description" />
 
+            <Button
+                android:id="@+id/cekstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_description"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="5dp"
+                android:text="Cek Harga Tawaran" />
+
 
 
 

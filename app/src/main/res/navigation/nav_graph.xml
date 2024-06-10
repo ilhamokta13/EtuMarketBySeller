@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_loginFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_resetPassFragment"
+            app:destination="@id/resetPassFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -78,6 +81,9 @@
         <action
             android:id="@+id/action_listFragment_to_listDetailFragment"
             app:destination="@id/listDetailFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_lihatLokasiFragment"
+            app:destination="@id/lihatLokasiFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -89,6 +95,9 @@
         <action
             android:id="@+id/action_profileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_changeEmailFragment"
+            app:destination="@id/changeEmailFragment" />
     </fragment>
     <fragment
         android:id="@+id/addProductSellerFragment"
@@ -111,7 +120,11 @@
         android:id="@+id/detailFragment"
         android:name="com.ilham.etumarketbyseller.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_tawaranHargaFragment"
+            app:destination="@id/tawaranHargaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.ilham.etumarketbyseller.UserFragment"
@@ -120,6 +133,9 @@
         <action
             android:id="@+id/action_userFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeBuyerFragment"
@@ -155,6 +171,9 @@
         <action
             android:id="@+id/action_loginAdminFragment_to_pilihanFragment"
             app:destination="@id/pilihanFragment" />
+        <action
+            android:id="@+id/action_loginAdminFragment_to_resetPassFragment"
+            app:destination="@id/resetPassFragment" />
     </fragment>
     <fragment
         android:id="@+id/registerAdminFragment"
@@ -176,7 +195,11 @@
     <fragment
         android:id="@+id/profileFragmentAdmin"
         android:name="com.ilham.etumarketbyseller.admin.ProfileFragmentAdmin"
-        android:label="ProfileFragmentAdmin" />
+        android:label="ProfileFragmentAdmin" >
+        <action
+            android:id="@+id/action_profileFragmentAdmin_to_changeEmailFragment"
+            app:destination="@id/changeEmailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/listDetailFragment"
         android:name="com.ilham.etumarketbyseller.ListDetailFragment"
@@ -214,6 +237,9 @@
         <action
             android:id="@+id/action_homeAdminFragment_to_detailAdminFragment"
             app:destination="@id/detailAdminFragment" />
+        <action
+            android:id="@+id/action_homeAdminFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
     </fragment>
     <fragment
         android:id="@+id/grafikFragment"
@@ -242,5 +268,61 @@
         <action
             android:id="@+id/action_detailAdminFragment_to_grafikFragment"
             app:destination="@id/grafikFragment" />
+        <action
+            android:id="@+id/action_detailAdminFragment_to_loginAdminFragment"
+            app:destination="@id/loginAdminFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.ilham.etumarketbyseller.admin.AboutUsFragment"
+        android:label="AboutUsFragment" />
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="com.ilham.etumarketbyseller.ChangeEmailFragment"
+        android:label="ChangeEmailFragment" >
+        <action
+            android:id="@+id/action_changeEmailFragment_to_profileFragmentAdmin"
+            app:destination="@id/profileFragmentAdmin" />
+        <action
+            android:id="@+id/action_changeEmailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newPasswordFragment"
+        android:name="com.ilham.etumarketbyseller.NewPasswordFragment"
+        android:label="fragment_new_password"
+        tools:layout="@layout/fragment_new_password" >
+        <action
+            android:id="@+id/action_newPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_newPasswordFragment_to_loginAdminFragment"
+            app:destination="@id/loginAdminFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resetPassFragment"
+        android:name="com.ilham.etumarketbyseller.ResetPassFragment"
+        android:label="fragment_reset_pass"
+        tools:layout="@layout/fragment_reset_pass" >
+        <action
+            android:id="@+id/action_resetPassFragment_to_newPasswordFragment"
+            app:destination="@id/newPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/lihatLokasiFragment"
+        android:name="com.ilham.etumarketbyseller.LihatLokasiFragment"
+        android:label="fragment_lihat_lokasi"
+        tools:layout="@layout/fragment_lihat_lokasi" />
+    <fragment
+        android:id="@+id/tawaranHargaFragment"
+        android:name="com.ilham.etumarketbyseller.TawaranHargaFragment"
+        android:label="TawaranHargaFragment" >
+        <action
+            android:id="@+id/action_tawaranHargaFragment_to_postTawarHargaFragment"
+            app:destination="@id/postTawarHargaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postTawarHargaFragment"
+        android:name="com.ilham.etumarketbyseller.PostTawarHargaFragment"
+        android:label="PostTawarHargaFragment" />
 </navigation>

@@ -19,12 +19,25 @@
 
             <ImageButton
                 android:id="@+id/dropdown_button"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="100dp"
                 android:background="@null"
                 android:padding="8dp"
                 android:src="@drawable/ic_baseline_arrow_drop_down_24" />
+
+            <TextView
+                android:id="@+id/RincianProduk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="215dp"
+                android:layout_marginTop="10dp"
+                android:text="Produk yang Terbayar "
+                android:textColor="@color/black" />
+
 
             <TextView
                 android:id="@+id/NamaTokoLabel"

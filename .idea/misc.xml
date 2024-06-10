@@ -37,28 +37,36 @@
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/dashboard_admin.xml" value="0.16666666666666666" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/detail_pesanan.xml" value="0.1296875" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/dropdown_item.xml" value="0.10914855072463768" />
-        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_add_product_seller.xml" value="0.21102661596958175" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_about_us.xml" value="0.15579710144927536" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_add_product_seller.xml" value="0.16531713900134953" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_change_email.xml" value="0.1265625" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_chat.xml" value="0.14130434782608695" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_data_admin.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_detail.xml" value="0.16666666666666666" />
-        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_detail_admin.xml" value="0.134375" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_detail_admin.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_edit.xml" value="0.14666666666666667" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_grafik.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_home.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_home_admin.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_home_buyer.xml" value="0.22" />
-        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_list.xml" value="0.16666666666666666" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_lihat_lokasi.xml" value="0.11354166666666667" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_list.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_list_detail.xml" value="0.17552083333333332" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_login.xml" value="0.16666666666666666" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_login_admin.xml" value="0.14221014492753623" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_new_password.xml" value="0.14990942028985507" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_new_password_admin.xml" value="0.14990942028985507" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_notifikasi.xml" value="0.14130434782608695" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_pilihan.xml" value="0.13632246376811594" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_post_tawar_harga.xml" value="0.16666666666666666" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_profile.xml" value="0.16666666666666666" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_profile_admin.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_register.xml" value="0.2697947214076246" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_register_admin.xml" value="0.14221014492753623" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_reset_pass.xml" value="0.14990942028985507" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_setting.xml" value="0.1" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_splash.xml" value="0.16666666666666666" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_tawaran_harga.xml" value="0.14990942028985507" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_user.xml" value="0.12395833333333334" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/fragment_user_admin.xml" value="0.14583333333333334" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/item_admin.xml" value="0.3333333333333333" />
@@ -72,6 +80,7 @@
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/item_profile.xml" value="0.3333333333333333" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/item_right.xml" value="0.14666666666666667" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/item_slider.xml" value="0.14583333333333334" />
+        <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/item_tawaran.xml" value="0.22" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/item_user.xml" value="0.16666666666666666" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/list_category_home.xml" value="0.1431159420289855" />
         <entry key="..\:/KULIAH/EtuMarketBySeller/app/src/main/res/layout/list_product_home.xml" value="0.1431159420289855" />

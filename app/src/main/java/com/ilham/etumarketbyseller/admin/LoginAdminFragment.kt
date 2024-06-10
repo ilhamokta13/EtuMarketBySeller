@@ -25,6 +25,7 @@ import com.ilham.etumarketbyseller.model.login.LoginBody
 import com.ilham.etumarketbyseller.viewmodel.SettingViewModel
 import com.ilham.etumarketbyseller.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.regex.Pattern
 
 @AndroidEntryPoint
 class LoginAdminFragment : Fragment() {
@@ -58,20 +59,24 @@ class LoginAdminFragment : Fragment() {
             updateNightMode(isDarkModeActive)
         }
 
+        binding.lupaPassword.setOnClickListener {
+            findNavController().navigate(R.id.action_loginAdminFragment_to_resetPassFragment)
+        }
+
         binding.login.setOnClickListener {
-            if (binding.etEmail.text.toString().isEmpty()) {
-                binding.etEmail.setError("Isi Username")
-            } else if (binding.etPassword.text.toString().isEmpty()) {
-                binding.etPassword.setError("Isi Password")
-            } else if (binding.etPassword.text.toString().length < 6) {
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            if (email.isEmpty()) {
+                binding.etEmail.error = "Isi Username"
+            } else if (!isValidEmail(email)) {
+                Toast.makeText(context, "Email salah", Toast.LENGTH_SHORT).show()
+            } else if (password.isEmpty()) {
+                binding.etPassword.error = "Isi Password"
+            } else if (password.length < 6) {
                 Toast.makeText(context, "Password kurang dari 6 karakter", Toast.LENGTH_SHORT).show()
-            }
-            else {
-                login()
-
-
-
-
+            } else {
+                login(email,password)
             }
         }
 
@@ -97,6 +102,14 @@ class LoginAdminFragment : Fragment() {
     }
 
 
+    private fun isValidEmail(email: String): Boolean {
+        val emailPattern = Pattern.compile(
+            "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+        )
+        return emailPattern.matcher(email).matches()
+    }
+
+
     private fun updateNightMode(isDarkModeActive: Boolean) {
         val nightMode = if (isDarkModeActive) {
             AppCompatDelegate.MODE_NIGHT_YES
@@ -106,9 +119,7 @@ class LoginAdminFragment : Fragment() {
         AppCompatDelegate.setDefaultNightMode(nightMode)
     }
 
-    fun login() {
-        val email = binding.etEmail.text.toString()
-        val password = binding.etPassword.text.toString()
+    private fun login(email: String, password:String) {
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -138,8 +149,14 @@ class LoginAdminFragment : Fragment() {
                         Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Firebase authentication failed
-                    Toast.makeText(context, "Firebase Authentication Failed", Toast.LENGTH_SHORT).show()
+                    val exception = task.exception
+                    if (exception != null) {
+                        if (exception.message?.contains("password") == true) {
+                            Toast.makeText(context, "Password salah", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(context, "Firebase Authentication Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             }
 
@@ -149,6 +166,8 @@ class LoginAdminFragment : Fragment() {
 
 
     }
+
+
 }
 
 

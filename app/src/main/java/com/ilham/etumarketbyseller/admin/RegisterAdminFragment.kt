@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
@@ -36,6 +38,7 @@ class RegisterAdminFragment : Fragment() {
     lateinit var pref: SharedPreferences
     lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
+    private var titleAd:String? = null
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
@@ -65,6 +68,9 @@ class RegisterAdminFragment : Fragment() {
         binding.tvMasukdisini.setOnClickListener {
             findNavController().navigate(R.id.action_registerAdminFragment_to_loginAdminFragment)
         }
+
+        val hintTitle = resources.getStringArray(R.array.Role)
+        formTitle(hintTitle)
 
 
 
@@ -148,6 +154,17 @@ class RegisterAdminFragment : Fragment() {
         }
 
 
+    }
+
+    private fun formTitle(hintTitle: Array<String>) {
+        binding.etRole.apply {
+            val adapterTitle = ArrayAdapter(requireContext(), R.layout.dropdown_item, hintTitle)
+            setAdapter(adapterTitle)
+            hint = "Title"
+            onItemClickListener = AdapterView.OnItemClickListener{ _, _, position, _ ->
+                titleAd = adapterTitle.getItem(position).toString()
+            }
+        }
     }
 
 

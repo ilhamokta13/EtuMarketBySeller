@@ -266,8 +266,8 @@ class AddProductSellerFragment : Fragment() {
         } else {
             fusedLocProvClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
-                    binding.longitude.text = location.latitude.toString()
-                    binding.latitude.text = location.longitude.toString()
+                    binding.longitude.text = location.longitude.toString()
+                    binding.latitude.text = location.latitude.toString()
                     binding.altitude.text = location.altitude.toString()
                     binding.edAcc.text = "${location.accuracy}%"
 
@@ -308,6 +308,24 @@ class AddProductSellerFragment : Fragment() {
         val release = binding.etDate.text.toString().toRequestBody("text/plain".toMediaType())
         val latitude = binding.latitude.text.toString().toRequestBody("text/plain".toMediaType())
         val longitude = binding.longitude.text.toString().toRequestBody("text/plain".toMediaType())
+        val lokasi = binding.uploadlocation.text.toString()
+        val price = binding.uploadHargaMenu.text
+        val nameproduct = binding.uploadNamaProduk.text
+
+        if (lokasi.isEmpty()) {
+            Toast.makeText(context, "Lokasi belum diisi", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if(price.isEmpty()){
+            Toast.makeText(context, "Harga belum diisi", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (nameproduct.isEmpty()){
+            Toast.makeText(context, "Nama Produk belum diisi", Toast.LENGTH_SHORT).show()
+            return
+        }
 //        val id = pref.getString("_id", "").toString().toRequestBody("text/plain".toMediaType())
 
 //        val adduser = pref.edit()

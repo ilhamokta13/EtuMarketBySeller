@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -34,16 +36,46 @@
         android:theme="@style/Theme.EtuMarketBySeller"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".UserAdminActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB4x9zj21G1QI4E-SZGU4K8Ge-ZEX9VUCQ" />
+            android:value="AIzaSyC0PrXhOmCsY0W6WBWwTZpErulWQdh_Huw" />
+
+
+        <service
+            android:name=".constant.FirebaseService"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+
+        <service
+            android:name=".constant.MyFirebaseMessagingService"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+            <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            <category android:name="${applicationId}"/>
+        </intent-filter>
+        </receiver>
 
         <activity
             android:name=".MainActivity"
@@ -54,6 +86,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+
 
         <provider
             android:name="androidx.core.content.FileProvider"

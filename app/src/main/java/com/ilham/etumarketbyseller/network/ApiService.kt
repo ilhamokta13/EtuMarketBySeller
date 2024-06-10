@@ -13,8 +13,9 @@ import com.ilham.etumarketbyseller.model.product.delete.DeleteProductResponse
 import com.ilham.etumarketbyseller.model.product.getproductadmin.GetProductAdminResponse
 import com.ilham.etumarketbyseller.model.product.listpesanan.GetPesananResponse
 import com.ilham.etumarketbyseller.model.product.productperid.GetProductPerId
-import com.ilham.etumarketbyseller.model.product.status.PostUpdateStatus
-import com.ilham.etumarketbyseller.model.product.status.ResponseUpdateStatus
+import com.ilham.etumarketbyseller.model.product.status.*
+import com.ilham.etumarketbyseller.model.product.tawarharga.GetResponseTawaranHarga
+import com.ilham.etumarketbyseller.model.product.tawarharga.post.PatchTawarHargaResponse
 import com.ilham.etumarketbyseller.model.product.update.Data
 import com.ilham.etumarketbyseller.model.product.update.UpdateProductResponse
 import com.ilham.etumarketbyseller.model.profile.UpdateProfileResponse
@@ -38,9 +39,7 @@ interface ApiService {
     ):Call<ResponseRegister>
 
     @POST("user/login")
-    fun login(
-        @Body
-              loginBody: LoginBody) : Call<ResponseLogin>
+    fun login(@Body loginBody: LoginBody) : Call<ResponseLogin>
 
     @Multipart
     @POST("product")
@@ -144,11 +143,34 @@ interface ApiService {
         @Header("Authorization") token: String
     ):Call<GetPesananResponse>
 
+    @FormUrlEncoded
     @PATCH("/transaksi/updateStatus")
-        fun poststatus(
-            @Header("Authorization") token: String,
-            @Body postUpdateStatus: PostUpdateStatus
-        ):Call<ResponseUpdateStatus>
+    fun poststatus(
+        @Header("Authorization") token: String,
+        @Field("kode_transaksi") kode_transaksi : String,
+        @Field("productID") productID: String,
+        @Field("status") status: String,
+    ):Call<ResponseUpdateStatus>
+
+    @Multipart
+    @PATCH("/transaksi/updateStatus")
+    fun poststatusimage(
+        @Header("Authorization") token: String,
+        @Part image : MultipartBody.Part,
+    ):Call<ResponseUpdateStatus>
+
+
+    @POST("user/new-password")
+    fun newpass(
+        @Body postNewPassword: PostNewPassword
+    ) : Call<ResponseNewPass>
+
+
+    @POST("user/forgot-password")
+    fun forgotpass(
+        @Body postForgotPass: PostForgotPass) : Call<ResponseForgotPass>
+
+
 
         @GET("/transaksi/getPendapatan")
         fun getpendapatan(
@@ -165,6 +187,31 @@ interface ApiService {
     fun getprofile(
         @Header("Authorization") token: String
     ):Call<ProfilebyIdResponse>
+
+    @FormUrlEncoded
+    @PATCH("admin/complete-profile")
+    fun updateprofileemail(
+        @Header("Authorization") token: String,
+        @Field("email") email : String,
+    ):Call<UpdateProfileResponse>
+
+    @GET("product/{id}/offers/status")
+    fun gettawar(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ):Call<GetResponseTawaranHarga>
+
+    @FormUrlEncoded
+    @PATCH("product/{id}/offer/{offerId}")
+    fun postresponstawar(
+        @Header("Authorization") token: String,
+        @Path("id") id: String,
+        @Path("offerId") offerId:String,
+        @Field("status") status: String
+    ):Call<PatchTawarHargaResponse>
+
+
+
 
 
 

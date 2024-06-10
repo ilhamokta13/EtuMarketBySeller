@@ -100,6 +100,11 @@ class ProfileFragment : Fragment() {
         getprofile()
 
 
+        binding.btnChangeEmail.setOnClickListener {
+            findNavController().navigate(R.id.action_profileFragment_to_changeEmailFragment)
+        }
+
+
 
         binding.btnLogout.setOnClickListener {
             val editor = pref.edit()

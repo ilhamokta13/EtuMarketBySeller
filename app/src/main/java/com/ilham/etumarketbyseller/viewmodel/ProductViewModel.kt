@@ -7,8 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ilham.etumarketbyseller.model.product.create.CreateProductResponse
 import com.ilham.etumarketbyseller.model.product.create.Data
-import com.ilham.etumarketbyseller.model.product.create.ResponseProductCreate
-import com.ilham.etumarketbyseller.model.product.update.UpdateProductResponse
+import com.ilham.etumarketbyseller.model.product.tawarharga.GetResponseTawaranHarga
+import com.ilham.etumarketbyseller.model.product.tawarharga.TawarProduct
+import com.ilham.etumarketbyseller.model.product.tawarharga.post.PatchTawarHargaResponse
 import com.ilham.etumarketbyseller.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.MultipartBody
@@ -19,7 +20,6 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(private val api : ApiService,
@@ -108,6 +108,79 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
 
 
     }
+
+
+    private val liveDatatawarharga: MutableLiveData<List<TawarProduct>> =  MutableLiveData()
+    val datatawarharga: LiveData<List<TawarProduct>> = liveDatatawarharga
+
+    fun tawarharga(token : String, id : String){
+        api.gettawar("Bearer $token", id).enqueue(object : Callback<GetResponseTawaranHarga>{
+            override fun onResponse(
+                call: Call<GetResponseTawaranHarga>,
+                response: Response<GetResponseTawaranHarga>
+            ) {
+
+                if (response.isSuccessful) {
+                    val responseData = response.body()
+                    if (responseData != null && responseData.data!= null) {
+                        val cartProducts = responseData.data
+                        liveDatatawarharga.value = flattenCartData(responseData.data)
+                    } else {
+                        Log.e("CartUserViewModel", "Response body or products are null")
+                    }
+                } else {
+                    Log.e("CartUserViewModel", "${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<GetResponseTawaranHarga>, t: Throwable) {
+                Log.e("CartViewModel3", "Failed to fetch cart data: ${t.message}")
+
+            }
+
+        })
+    }
+
+    private val confirmstatusharga : MutableLiveData<PatchTawarHargaResponse> = MutableLiveData()
+    val dataconfirmstatusharga : LiveData<PatchTawarHargaResponse> = confirmstatusharga
+
+    fun confirmtawarharga(token: String, id: String, offerId : String, status:String){
+        api.postresponstawar("Bearer $token", id, offerId, status).enqueue(object : Callback<PatchTawarHargaResponse>{
+            override fun onResponse(
+                call: Call<PatchTawarHargaResponse>,
+                response: Response<PatchTawarHargaResponse>
+            ) {
+                if (response.isSuccessful) {
+                    confirmstatusharga.value = response.body()
+                } else {
+                    Log.e("ConfirmStatusHarga", "${response.errorBody()?.string()}")
+
+                }
+            }
+
+            override fun onFailure(call: Call<PatchTawarHargaResponse>, t: Throwable) {
+                Log.e("ConfirmStatusHarga2", "Null Post Confirm Status")
+            }
+
+        })
+
+    }
+
+
+    fun flattenCartData(dataList: List<com.ilham.etumarketbyseller.model.product.tawarharga.Data>): List<TawarProduct> {
+        val productList = mutableListOf<TawarProduct>()
+        for (data in dataList) {
+            val namaproduk = data.product.name
+            val hargaproduk = data.product.price
+            val idproduct = data.product.id
+            for (product in data.offers) {
+                productList.add(TawarProduct(namaproduk,hargaproduk,product, idproduct))
+            }
+        }
+        return productList
+    }
+
+
 
     fun saveIdCart(cart: String){
         val editor = sharedPreferences.edit()

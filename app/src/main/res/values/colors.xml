@@ -10,6 +10,8 @@
 
     <color name="Orange">#FB8C00</color>
 
+    <color name = "shimmer_placeholder">#dddddd</color>
+
     <color name="colorWhite">#fff</color>
 
     <color name="grey">#C1C1C1</color>
@@ -29,7 +31,7 @@
     <color name="shimer">#DDDDDD</color>
 
     <color name="primary">#003142</color>
-
+    <color name="red">#D81B1B</color>
 
 
 </resources>
