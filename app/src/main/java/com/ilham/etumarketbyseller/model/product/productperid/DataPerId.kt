@@ -11,6 +11,8 @@ data class DataPerId(
     val description: String,
     @SerializedName("_id")
     val id: String,
+    @SerializedName("userId")
+    val userId: String,
     @SerializedName("image")
     val image: String,
     @SerializedName("latitude")

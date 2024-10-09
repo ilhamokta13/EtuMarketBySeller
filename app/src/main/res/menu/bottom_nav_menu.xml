@@ -11,11 +11,7 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_list_alt_24"
         android:title="List" />
-    <item
-        android:id="@+id/userFragment"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_chat_24"
-        android:title="Chat" />
+
     <item
         android:id="@+id/profileFragment"
         android:icon="@drawable/ic_baseline_person_24"

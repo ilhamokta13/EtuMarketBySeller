@@ -67,26 +67,26 @@ class ListDetailFragment : Fragment() {
 
 
         binding.btnUpdateStatus.setOnClickListener {
-
             val selectedStatus = when (binding.rgStatusPesanan.checkedRadioButtonId) {
                 R.id.dikemas -> "Dikemas"
                 R.id.dikirim -> "Dikirim"
                 R.id.selesai -> "Selesai"
                 R.id.dibatalkan -> "Dibatalkan"
                 else -> null
-
-
             }
 
-            if (selectedStatus == null || imageMultipart == null) {
-                Toast.makeText(requireContext(), "Foto atau status harus dipilih", Toast.LENGTH_SHORT).show()
+            if (selectedStatus == null) {
+                Toast.makeText(requireContext(), "Status harus dipilih", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            adminVm.updateStatus(token, kodetransaction!!, IdProduct!!,selectedStatus)
+            if (imageMultipart == null) {
+                Toast.makeText(requireContext(), "Harap sertakan foto", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            adminVm.updateStatus(token, kodetransaction!!, IdProduct!!, selectedStatus)
             adminVm.updateStatusimage(token, imageMultipart!!)
-
-
 
             adminVm.dataupdatestatus.observe(viewLifecycleOwner) {
                 if (it.message == "Berhasil update status transaksi") {

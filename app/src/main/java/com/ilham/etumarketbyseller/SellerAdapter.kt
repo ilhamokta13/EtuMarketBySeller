@@ -19,28 +19,7 @@ class SellerAdapter(private val context: Context, var listproduct: List<DataAdmi
 
     var filteredList: List<DataAdmin> = ArrayList()
     class ViewHolder(var binding : ItemListBinding) : RecyclerView.ViewHolder(binding.root) {
-//        fun bindseller(itemSeller:DataAllProduct){
-//            binding.seller = itemSeller
-////            binding.btnDetail.setOnClickListener {
-////                val bundle = Bundle()
-////                bundle.putSerializable("detail", itemSeller)
-////                Navigation.findNavController(itemView).navigate(R.id.action_homeFragment_to_detailFragment)
-////            }
-//
-//            binding.btnEdit.setOnClickListener {
-//            var edit = Bundle()
-//            edit.putSerializable("edit", itemSeller)
-//            Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_editFragment)
-//
-//        }
-//
-//        binding.btnDetail.setOnClickListener{
-//            var detail = Bundle()
-//            detail.putSerializable("detail", itemSeller)
-//            Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_detailFragment)
-//        }
-//
-//        }
+
 
     }
 
@@ -52,22 +31,19 @@ class SellerAdapter(private val context: Context, var listproduct: List<DataAdmi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.Judul.text = listproduct[position].nameProduct
         holder.binding.Harga.text = listproduct[position].price.toString()
-//        holder.bindseller(listproduct[position])
-        Glide.with(holder.itemView).load("https://7895jr9m-3000.asse.devtunnels.ms/uploads/${listproduct[position].image}").into(holder.binding.imgProduct)
-//
+        Glide.with(holder.itemView).load("https://f31jwrgg-3000.asse.devtunnels.ms/uploads/${listproduct[position].image}").into(holder.binding.imgProduct)
         holder.binding.btnEdit.setOnClickListener {
             val id = listproduct[position].id
             var edit = Bundle()
             productVm.saveIdCart(id)
             edit.putString("idcart", id)
-//            edit.putSerializable("edit", listproduct[position])
             Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_editFragment,edit)
 
         }
 
         holder.binding.btnDetail.setOnClickListener{
             var detail = Bundle()
-            detail.putSerializable("detail", listproduct[position])
+            detail.putParcelable("detail", listproduct[position])
             Navigation.findNavController(it).navigate(R.id.action_homeFragment_to_detailFragment, detail)
         }
 
@@ -75,10 +51,6 @@ class SellerAdapter(private val context: Context, var listproduct: List<DataAdmi
             val seller = listproduct[position]
             val token =  pref.getString("token", "").toString()
             homeVm.deleteproduct(token, seller.id)
-
-//            homeVm.itemdeleteproduct.observe(LifecycleOwner){
-//
-//            }
             Toast.makeText(holder.itemView.context, "Item telah dihapus", Toast.LENGTH_SHORT).show()
         }
 

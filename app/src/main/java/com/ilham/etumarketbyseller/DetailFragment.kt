@@ -1,6 +1,7 @@
 package com.ilham.etumarketbyseller
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.location.Address
 import android.location.Geocoder
@@ -46,7 +47,7 @@ class DetailFragment : Fragment() {
         homeVm = ViewModelProvider(this).get(HomeViewModel::class.java)
         productVm = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-        val getData = arguments?.getSerializable("detail") as DataAdmin
+        val getData = arguments?.getParcelable<DataAdmin>("detail") as DataAdmin
         val token = pref.getString("token", "").toString()
 //        val getId = pref.getString("id", " ")
         idProduct = getData.id
@@ -62,6 +63,8 @@ class DetailFragment : Fragment() {
             bundle.putString("idtawar", idProduct)
             findNavController().navigate(R.id.action_detailFragment_to_tawaranHargaFragment, bundle)
         }
+
+
 
 
 

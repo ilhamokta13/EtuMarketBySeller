@@ -2,6 +2,7 @@ package com.ilham.etumarketbyseller.model.product.getproductadmin
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class SellerID(
     @SerializedName("email")
@@ -20,4 +21,4 @@ data class SellerID(
     val telp: String,
     @SerializedName("__v")
     val v: Int
-)
+):Serializable

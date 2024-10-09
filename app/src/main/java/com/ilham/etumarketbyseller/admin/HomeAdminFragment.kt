@@ -50,9 +50,9 @@ class HomeAdminFragment : Fragment() {
             findNavController().navigate(R.id.action_homeAdminFragment_to_aboutUsFragment)
         }
 
-        binding.cardChat.setOnClickListener {
-            findNavController().navigate(R.id.action_homeAdminFragment_to_userAdminFragment)
-        }
+//        binding.cardChat.setOnClickListener {
+//            findNavController().navigate(R.id.action_homeAdminFragment_to_userAdminFragment)
+//        }
 
         binding.cardProfile.setOnClickListener {
             findNavController().navigate(R.id.action_homeAdminFragment_to_profileFragmentAdmin)
@@ -68,12 +68,12 @@ class HomeAdminFragment : Fragment() {
             findNavController().navigate(R.id.action_homeAdminFragment_to_settingFragment)
         }
 
-        binding.cardLogout.setOnClickListener {
-            val editor = pref.edit()
-            editor.remove("token")
-            editor.apply()
-            findNavController().navigate(R.id.action_homeAdminFragment_to_loginAdminFragment)
-        }
+//        binding.cardLogout.setOnClickListener {
+//            val editor = pref.edit()
+//            editor.remove("token")
+//            editor.apply()
+//            findNavController().navigate(R.id.action_homeAdminFragment_to_loginAdminFragment)
+//        }
 
         val preferences = SettingPreferences.getInstance(requireContext().dataStore)
         val settingModel = createSettingViewModel(preferences)

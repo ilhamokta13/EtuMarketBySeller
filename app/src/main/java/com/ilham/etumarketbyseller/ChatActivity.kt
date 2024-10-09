@@ -58,7 +58,7 @@ import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 @AndroidEntryPoint
-class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
+class ChatActivity : AppCompatActivity() {
     lateinit var binding : ActivityChatBinding
     private lateinit var pref: SharedPreferences
     var firebaseUser: FirebaseUser? = null
@@ -70,7 +70,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
     var chatList = ArrayList<Chat>()
     var topic = ""
 
-    private lateinit var locationManager: LocationManager
     lateinit var productVm : ProductViewModel
 
     companion object {
@@ -86,16 +85,10 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         pref = this.getSharedPreferences("Success", Context.MODE_PRIVATE)
-
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         productVm = ViewModelProvider(this).get(ProductViewModel::class.java)
 
         binding.chatRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
 
         FirebaseApp.initializeApp(this)
 
@@ -126,9 +119,15 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
             openImagePicker()
         }
 
-        binding.btnSendLocation.setOnClickListener {
-            getLocation()
+        binding.imgBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("navigateTo", R.id.userFragment)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish()
         }
+
+
 
 
 
@@ -145,12 +144,11 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_PICK_REQUEST && resultCode == RESULT_OK && data != null) {
             selectedImagePath = data.data?.toString()
-            // Tampilkan gambar sebelum dikirim
             showImagePreview(selectedImagePath)
         }
     }
 
-    private var selectedImageUri: Uri? = null
+
 
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -158,7 +156,7 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         startActivityForResult(intent, IMAGE_PICK_REQUEST)
     }
 
-    // Add this constant
+
     private val IMAGE_PICK_REQUEST = 101
 
 
@@ -175,7 +173,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
             .addOnSuccessListener { taskSnapshot ->
                 storageRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
-                    // Kirim pesan dengan URL gambar (dan teks jika ada)
                     sendMessage(firebaseUser!!.uid, userId!!, message, imageUrl)
                 }
             }
@@ -191,10 +188,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         hashMap.put("senderId", senderId)
         hashMap.put("receiverId", receiverId)
         hashMap.put("message", message)
-//
-//        if (!imageUrl.isNullOrEmpty()) {
-//            hashMap["imageUrl"] = imageUrl
-//        }
 
         val chat = Chat(senderId, receiverId, message, imageUrl)
 
@@ -202,66 +195,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         reference!!.child("Chat").push().setValue(chat)
 
     }
-
-
-    private fun getLocation() {
-        val fusedLocProvClient = LocationServices.getFusedLocationProviderClient(this)
-        val boundsBuilder = LatLngBounds.Builder()
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(
-                    arrayOf(
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ), 10
-                )
-            }
-        } else {
-            fusedLocProvClient.lastLocation.addOnSuccessListener { location ->
-                if (location != null) {
-                    currentLatitude = location.latitude
-                    currentLongitude = location.longitude
-
-
-                    displayLocationOnMap(currentLatitude!!, currentLongitude!!)
-                    val geocoder = Geocoder(this, Locale.getDefault())
-                    try {
-                        val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1) as List<Address>
-                        if (addresses.isNotEmpty()) {
-                            val locName: String = addresses[0].getAddressLine(0)
-
-                            productVm.saveLocation(locName)
-                        }
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-
-                    // Panggil showMap dengan koordinat lokasi pengguna
-//                    showMap(location.latitude, location.longitude)
-
-                    val latLon = LatLng(location.latitude, location.longitude)
-                    Log.d("Detail Rs", "$latLon")
-
-                    gMap.addMarker(
-                        MarkerOptions()
-                            .position(latLon)
-                            .icon(vectorToBitmap(R.drawable.ic_baseline_location_on_24, Color.RED))
-                    )
-
-                    boundsBuilder.include(latLon)
-                    val bounds: LatLngBounds = boundsBuilder.build()
-                    gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 64))
-                } else {
-                    Toast.makeText(this, "Alamat Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-
 
     fun readMessage(senderId: String, receiverId: String) {
         val databaseReference: DatabaseReference =
@@ -297,19 +230,14 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 val response = RetrofitInstance.api.postNotification(notification)
                 if (response.isSuccessful) {
-//                    Log.d("TAG", "Response: ${Gson().toJson(response)}")
                 } else {
                     Log.e("TAG", response.errorBody()!!.string())
                 }
 
-                // Jika notifikasi berisi gambar
                 if (!notification.data.imageUrl.isNullOrEmpty()) {
-                    // Ambil gambar dari URL
                     val bitmap = getBitmapFromUrl(notification.data.imageUrl!!)
 
-                    // Jika gambar berhasil diambil
                     if (bitmap != null) {
-                        // Tampilkan notifikasi dengan gambar menggunakan BigPictureStyle
                         showNotificationWithImage(notification, bitmap)
                     }
                 }
@@ -321,8 +249,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-
-    // Fungsi untuk mendapatkan bitmap dari URL
     fun getBitmapFromUrl(imageUrl: String): Bitmap? {
         return try {
             val url = URL(imageUrl)
@@ -335,12 +261,10 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-    // Fungsi untuk menampilkan notifikasi dengan gambar
     fun showNotificationWithImage(notification: PushNotification, bitmap: Bitmap) {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // Konfigurasi notifikasi
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(notification.data.title)
             .setContentText(notification.data.message)
@@ -348,7 +272,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setAutoCancel(true)
 
-        // Tambahkan BigPictureStyle dengan gambar
         val style = NotificationCompat.BigPictureStyle()
             .bigPicture(bitmap)
             .bigLargeIcon(null as Bitmap?)
@@ -357,7 +280,6 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
 
         builder.setStyle(style)
 
-        // Tampilkan notifikasi
         notificationManager.notify(NOTIFICATION_ID, builder.build())
     }
 
@@ -383,23 +305,23 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
-        val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
-        if (vectorDrawable == null) {
-            Log.e("BitmapHelper", "Resource not found")
-            return BitmapDescriptorFactory.defaultMarker()
-        }
-        val bitmap = Bitmap.createBitmap(
-            vectorDrawable.intrinsicWidth,
-            vectorDrawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-        DrawableCompat.setTint(vectorDrawable, color)
-        vectorDrawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-    }
+//    private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
+//        val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
+//        if (vectorDrawable == null) {
+//            Log.e("BitmapHelper", "Resource not found")
+//            return BitmapDescriptorFactory.defaultMarker()
+//        }
+//        val bitmap = Bitmap.createBitmap(
+//            vectorDrawable.intrinsicWidth,
+//            vectorDrawable.intrinsicHeight,
+//            Bitmap.Config.ARGB_8888
+//        )
+//        val canvas = Canvas(bitmap)
+//        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
+//        DrawableCompat.setTint(vectorDrawable, color)
+//        vectorDrawable.draw(canvas)
+//        return BitmapDescriptorFactory.fromBitmap(bitmap)
+//    }
 
 
     private fun sendMessageWithOptionalLocationAndImage() {
@@ -448,34 +370,34 @@ class ChatActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.layoutImagePreview.visibility = View.GONE
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        gMap = googleMap
-        gMap.setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                this,
-                R.raw.map_style
-            )
-        )
-        gMap.uiSettings.isZoomControlsEnabled = true
-        gMap.uiSettings.isIndoorLevelPickerEnabled = true
-        gMap.uiSettings.isCompassEnabled = true
-        gMap.uiSettings.isMapToolbarEnabled = true
-
-        if (currentLatitude != null && currentLongitude != null) {
-            displayLocationOnMap(currentLatitude!!, currentLongitude!!)
-        }
-    }
-
-    private fun displayLocationOnMap(latitude: Double, longitude: Double) {
-        val location = LatLng(latitude, longitude)
-        gMap.addMarker(
-            MarkerOptions()
-                .position(location)
-                .icon(vectorToBitmap(R.drawable.ic_baseline_location_on_24, Color.RED))
-                .title("Current Location")
-        )
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
-    }
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        gMap = googleMap
+//        gMap.setMapStyle(
+//            MapStyleOptions.loadRawResourceStyle(
+//                this,
+//                R.raw.map_style
+//            )
+//        )
+//        gMap.uiSettings.isZoomControlsEnabled = true
+//        gMap.uiSettings.isIndoorLevelPickerEnabled = true
+//        gMap.uiSettings.isCompassEnabled = true
+//        gMap.uiSettings.isMapToolbarEnabled = true
+//
+//        if (currentLatitude != null && currentLongitude != null) {
+//            displayLocationOnMap(currentLatitude!!, currentLongitude!!)
+//        }
+//    }
+//
+//    private fun displayLocationOnMap(latitude: Double, longitude: Double) {
+//        val location = LatLng(latitude, longitude)
+//        gMap.addMarker(
+//            MarkerOptions()
+//                .position(location)
+//                .icon(vectorToBitmap(R.drawable.ic_baseline_location_on_24, Color.RED))
+//                .title("Current Location")
+//        )
+//        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+//    }
 
 
 }

@@ -27,7 +27,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.ilham.etumarketbyseller.databinding.FragmentLihatLokasiBinding
 import com.ilham.etumarketbyseller.viewmodel.AdminViewModel
-import com.ilham.etumarketbyseller.viewmodel.PaymentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +34,6 @@ class LihatLokasiFragment : Fragment(), OnMapReadyCallback {
 
     lateinit var binding : FragmentLihatLokasiBinding
     lateinit var pref: SharedPreferences
-    lateinit var paymentVm : PaymentViewModel
     lateinit var adminVm : AdminViewModel
     lateinit var gMap: GoogleMap
 

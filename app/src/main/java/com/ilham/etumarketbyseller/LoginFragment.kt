@@ -1,6 +1,7 @@
 package com.ilham.etumarketbyseller
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -44,6 +45,14 @@ class LoginFragment : Fragment() {
         firebaseAuth = FirebaseAuth.getInstance()
         pref = requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)
         userVm = ViewModelProvider(this).get(UserViewModel::class.java)
+
+
+        val token = pref.getString("token", null)
+        if (!token.isNullOrEmpty()) {
+            // Navigate to HomeFragment if token is present
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+
 
 
         binding.login.setOnClickListener {

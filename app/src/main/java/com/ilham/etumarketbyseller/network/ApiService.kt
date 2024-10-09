@@ -31,11 +31,13 @@ interface ApiService {
     @FormUrlEncoded
     @POST("user/register")
     fun register(
+        @Field("userId") userId : String,
         @Field("fullName") fullName : String,
         @Field("email") email : String,
         @Field("password") password : String,
         @Field("telp") telp : String,
         @Field("role") role:String,
+        @Field("shopName") shopName : String
     ):Call<ResponseRegister>
 
     @POST("user/login")
@@ -44,6 +46,7 @@ interface ApiService {
     @Multipart
     @POST("product")
     fun createproduct(
+        @Part("userId")  userId: String,
         @Part("nameProduct") nameProduct : RequestBody,
         @Part("price") price : RequestBody,
         @Part("description") description : RequestBody,
@@ -52,7 +55,8 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Part("releaseDate") releaseDate : RequestBody,
         @Part("latitude") latitude: RequestBody,
-        @Part("longitude") longitude:RequestBody
+        @Part("longitude") longitude:RequestBody,
+        @Part("stock") stock :RequestBody
 
     ):Call<CreateProductResponse>
 
@@ -78,7 +82,8 @@ interface ApiService {
         @Part ("category") category : RequestBody,
         @Part("releaseDate") releaseDate : RequestBody,
         @Part("longitude") longitude: RequestBody,
-        @Part("latitude") latitude: RequestBody
+        @Part("latitude") latitude: RequestBody,
+        @Part("stock") stock: RequestBody
     ):Call<com.ilham.etumarketbyseller.model.product.update.Data>
 
     @FormUrlEncoded

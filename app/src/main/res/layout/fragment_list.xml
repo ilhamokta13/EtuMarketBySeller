@@ -74,11 +74,11 @@
             android:id="@+id/recyclerViewItemRiwayat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/filterCardView"
             android:layout_marginHorizontal="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="8dp"
-            tools:listitem="@layout/item_pesanan"
-            android:layout_below="@id/filterCardView" />
+            tools:listitem="@layout/item_pesanan" />
 
     </RelativeLayout>
 

@@ -88,7 +88,6 @@ class AddProductSellerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentAddProductSellerBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -99,10 +98,6 @@ class AddProductSellerFragment : Fragment() {
         pref = requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)
         productVm = ViewModelProvider(this).get(ProductViewModel::class.java)
 
-
-
-//        val dateNowRilis = productVm.getDate()
-//        binding.etDate.setText(dateNowRilis)
         datePickerRilis()
 
 
@@ -122,7 +117,6 @@ class AddProductSellerFragment : Fragment() {
         }
 
         binding.uploadImage.setOnClickListener {
-//           openGallery()
             getContent.launch("image/*")
 
         }
@@ -135,37 +129,6 @@ class AddProductSellerFragment : Fragment() {
     }
 
 
-//    private fun openGallery() {
-//        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//        startActivityForResult(galleryIntent, IMAGE_REQUEST_CODE)
-//        filePhoto = getPhotoFile(FILE_NAME)
-//    }
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            val imageUri = data?.data
-//
-//
-//            // Update dataGambarUri
-//            dataGambarUri = imageUri!!
-//
-//            // memuat gambar yang dipilih ke dalam ImageView dan menerapkan efek CircleCrop agar gambar berbentuk lingkaran
-//            loadImageWithCircleCrop(dataGambarUri)
-//        }
-//    }
-//
-//    private fun getPhotoFile(fileName: String): File {
-//        val directoryStorage = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-//        return File.createTempFile(fileName, ".jpg", directoryStorage)
-//    }
-//
-//    private fun loadImageWithCircleCrop(imageUri: Uri) {
-//        Glide.with(this)
-//            .load(imageUri)
-//            .apply(RequestOptions.bitmapTransform(CircleCrop()))
-//            .into(binding.uploadImage)
-//    }
 
 
     private fun namaMonth(): ArrayList<String> {
@@ -187,8 +150,6 @@ class AddProductSellerFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun datePickerRilis() {
-
-
             binding.etDate.setOnClickListener {
                 val nameMonth = namaMonth()
                 val calendar = Calendar.getInstance()
@@ -196,14 +157,10 @@ class AddProductSellerFragment : Fragment() {
                 val month = calendar.get(Calendar.MONTH)
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-
                 val datePickerDialog = DatePickerDialog(
                     requireContext(),
                     { _, year, month, day ->
-//                        val bulan = nameMonth[month]
-//                        val tanggalRilis = "$year-${month+1}-$day"
 
-                        val nameMonth = namaMonth()
                         val selectedCalendar = Calendar.getInstance()
                         selectedCalendar.set(year, month, day)
 
@@ -237,7 +194,6 @@ class AddProductSellerFragment : Fragment() {
                     .setTextColor(resources.getColor(R.color.DARKBLUE05))
 
             }
-
 
     }
 
@@ -296,27 +252,29 @@ class AddProductSellerFragment : Fragment() {
 
 
     fun postdata() {
-
-
+        val firebaseUser = FirebaseAuth.getInstance().currentUser
+        val firebaseUserId = firebaseUser!!.uid
+        val userId = firebaseUserId
+        Log.d("Id User", "Id User : $userId")
         val namaproduk = binding.uploadNamaProduk.text.toString().toRequestBody("text/plain".toMediaType())
         val harga = binding.uploadHargaMenu.text.toString().toRequestBody("text/plain".toMediaType())
         val deskripsi =
             binding.uploadDesc.text.toString().toRequestBody("text/plain".toMediaType())
         val categori = binding.uploadCategory.text.toString().toRequestBody("text/plain".toMediaType())
         val dateNowRilis = productVm.getDate().toString().toRequestBody("text/plain".toMediaType())
-//        binding.etDate.setText(dateNowRilis)
-        val release = binding.etDate.text.toString().toRequestBody("text/plain".toMediaType())
         val latitude = binding.latitude.text.toString().toRequestBody("text/plain".toMediaType())
         val longitude = binding.longitude.text.toString().toRequestBody("text/plain".toMediaType())
+        val stock = binding.uploadstok.text.toString().toRequestBody("text/plain".toMediaType())
         val lokasi = binding.uploadlocation.text.toString()
         val price = binding.uploadHargaMenu.text
         val nameproduct = binding.uploadNamaProduk.text
+
+
 
         if (lokasi.isEmpty()) {
             Toast.makeText(context, "Lokasi belum diisi", Toast.LENGTH_SHORT).show()
             return
         }
-
         if(price.isEmpty()){
             Toast.makeText(context, "Harga belum diisi", Toast.LENGTH_SHORT).show()
             return
@@ -326,51 +284,21 @@ class AddProductSellerFragment : Fragment() {
             Toast.makeText(context, "Nama Produk belum diisi", Toast.LENGTH_SHORT).show()
             return
         }
-//        val id = pref.getString("_id", "").toString().toRequestBody("text/plain".toMediaType())
-
-//        val adduser = pref.edit()
-//        adduser.putString("namaproduk",
-//            namaproduk.toString().toRequestBody("text/plain".toMediaType()).toString()
-//        )
-//        adduser.putString("harga",
-//            harga.toString().toRequestBody("text/plain".toMediaType()).toString()
-//        )
-//        adduser.putString("deskripsi",
-//            deskripsi.toString().toRequestBody("text/plain".toMediaType()).toString()
-//        )
-//        adduser.putString("categori", categori.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.putString("release",
-//            release.toString().toRequestBody("text/plain".toMediaType()).toString()
-//        )
-//        adduser.putString("location",
-//            location.toString().toRequestBody("text/plain".toMediaType()).toString()
-//        )
-//        adduser.putString("image", imageMultipart.toString())
-//        adduser.apply()
-
-
-
-//        val id = "65bc6622cb2c0ebe09cdcc07"
-
-
-//        val id = productVm.getTicketId()
 
         val token  =  pref.getString("token", "").toString()
 
 
 
         productVm.createproduct(
+            userId,
             namaproduk,
             harga,
             deskripsi,
-
             imageMultipart!!,
-
-//            dataGambarUri.toString(),
             categori,
             token,
             dateNowRilis,
-            latitude, longitude
+            latitude, longitude, stock
         )
 
 
@@ -386,8 +314,7 @@ class AddProductSellerFragment : Fragment() {
                 sharedPref.apply()
 
             } else {
-//                Log.d(TAG, "register failed: $it")
-
+                Toast.makeText(context, "Data Tidak Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
             }
 
 

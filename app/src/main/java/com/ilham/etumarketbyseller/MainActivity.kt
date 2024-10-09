@@ -1,11 +1,17 @@
 package com.ilham.etumarketbyseller
 
+import android.Manifest
+import android.Manifest.permission.POST_NOTIFICATIONS
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -77,6 +83,22 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmentContainerView, ListFragment())
                     .commit()
+            }
+        }
+
+        if (intent.hasExtra("navigateTo")) {
+            val fragmentId = intent.getIntExtra("navigateTo", -1)
+            if (fragmentId != -1) {
+                navController.navigate(fragmentId)
+            }
+        }
+
+
+
+        // Check and request notification permission if needed
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
             }
         }
 

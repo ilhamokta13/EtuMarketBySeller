@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.graphics.Color
+import android.content.*
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -21,24 +18,18 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.auth.zzl.getToken
 import com.google.firebase.FirebaseApp
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.RemoteMessage
 import com.ilham.etumarketbyseller.constant.FirebaseService
 import com.ilham.etumarketbyseller.constant.MyFirebaseMessagingService
 import com.ilham.etumarketbyseller.databinding.FragmentListBinding
-import com.ilham.etumarketbyseller.model.BaseApplication
 import com.ilham.etumarketbyseller.model.chat.NotificationData
 import com.ilham.etumarketbyseller.model.chat.PushNotification
 import com.ilham.etumarketbyseller.model.chat.RetrofitInstance
 import com.ilham.etumarketbyseller.viewmodel.AdminViewModel
-import com.ilham.etumarketbyseller.viewmodel.PaymentViewModel
-import com.ilham.etumarketbyseller.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +44,6 @@ class ListFragment : Fragment() {
     lateinit var pref : SharedPreferences
     lateinit var pesananAdapter: PesananAdapter
 
-
     // Keep track of the previous list of orders
     private var previousOrderCount = 0
 
@@ -67,16 +57,27 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
+    private val orderReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            // Refresh data when new order is received
+            val token = pref.getString("token", "").toString()
+            getdata(token)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pref = requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)
-        val token = pref.getString("token", "").toString()
         MyFirebaseMessagingService.sharedPref = requireActivity().getSharedPreferences("Berhasil", Context.MODE_PRIVATE)
+        val token = pref.getString("token", "").toString()
+        requireActivity().registerReceiver(orderReceiver, IntentFilter("com.ilham.etumarketbyseller.ListFragment"))
+
         pesananAdapter = PesananAdapter(ArrayList(), requireContext())
 
-        FirebaseApp.initializeApp(requireContext())
-
+        initializeFirebaseMessaging()
         getdata(token)
+
+
 
         binding.etSearchProduct.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -111,19 +112,30 @@ class ListFragment : Fragment() {
             }
         }
 
+
+
+
+
+    }
+
+    private fun initializeFirebaseMessaging() {
         FirebaseMessaging.getInstance().token
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (task.result != null && !TextUtils.isEmpty(task.result)) {
                         val token: String = task.result!!
+                        Log.d("Inisisalisasi FCM", "Berhasil $task.result")
+                        Log.d("FCM Token", "Token: $token")
                         // Lakukan sesuatu dengan token jika perlu
                     }
                 }
             }
+    }
 
-
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        // Unregister receiver
+        requireActivity().unregisterReceiver(orderReceiver)
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -133,15 +145,14 @@ class ListFragment : Fragment() {
 
         adminVm.datapesanan.observe(viewLifecycleOwner, Observer { newOrders ->
             if (newOrders.size > previousOrderCount) {
-                val newOrderCount = newOrders.size - previousOrderCount
+                val notificationData = NotificationData(
+                    title = "Ada pesanan masuk",
+                    message = "Ada pesanan baru",
+                    // Optionally, you can include imageUrl if needed
+                    imageUrl = null
+                )
+                sendDetectionNotification("Ada pesanan masuk", 1.0f)
                 previousOrderCount = newOrders.size
-
-
-                // Show notification for new orders
-                showNotification(newOrderCount)
-
-
-
             }
 
             pesananAdapter.filteredList = newOrders
@@ -151,28 +162,68 @@ class ListFragment : Fragment() {
     }
 
 
-    private fun showNotification(newOrderCount: Int) {
-        val intent = Intent(requireContext(), ListFragment::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        val pendingIntent = PendingIntent.getActivity(requireContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
 
-        val channelId = getString(R.string.default_notification_channel_id)
-        val notificationBuilder = NotificationCompat.Builder(requireContext(), channelId)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_24) // Use your own icon here
-            .setContentTitle(getString(R.string.fcm_message))
-            .setContentText("You have $newOrderCount new orders.")
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent)
+    private fun sendDetectionNotification(detection: String, confidence: Float) {
+        if (confidence > 0.5) {
+            val intent = Intent(context, MainActivity::class.java)
+            val flags = PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            val pendingIntent = PendingIntent.getActivity(context, 0, intent, flags)
+            val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notification = NotificationCompat.Builder(requireContext(), "CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+                .setVibrate(longArrayOf(1000))
+                .setSound(android.provider.Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setContentText(detection)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.DEFAULT_ALL);
 
-        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "Order Notifications", NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(channel)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationChannel = NotificationChannel(
+                    "CHANNEL_ID", "Pesanan Notification",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                notificationChannel.enableVibration(true)
+                notificationChannel.vibrationPattern = longArrayOf(1000)
+                manager.createNotificationChannel(notificationChannel)
+            }
+            manager.notify(2, notification.build())
         }
-
-        notificationManager.notify(0, notificationBuilder.build())
     }
+
+    private fun sendNotification(notification: PushNotification) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            withContext(Dispatchers.IO) {
+
+                val response = RetrofitInstance.api.postNotification(notification)
+                if (response.isSuccessful) {
+//                    Log.d("TAG", "Response: ${Gson().toJson(response)}")
+                } else {
+                    Log.e("TAG", response.errorBody()!!.string())
+                }
+
+
+            }
+        } catch(e: Exception) {
+            Log.e("TAG", e.toString())
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -4,9 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ilham.etumarketbyseller.model.alltransaksi.Data
-import com.ilham.etumarketbyseller.model.alltransaksi.GetAllTransaksiResponse
-import com.ilham.etumarketbyseller.model.alltransaksi.Product
 import com.ilham.etumarketbyseller.model.pendapatan.DataToko
 import com.ilham.etumarketbyseller.model.pendapatan.GetPendapatanToko
 import com.ilham.etumarketbyseller.model.product.listpesanan.DataPesanan
@@ -23,33 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AdminViewModel @Inject constructor(private val api : ApiService) : ViewModel()  {
 
-    private val liveDataAdmin : MutableLiveData<List<Product>> = MutableLiveData()
-    val dataProduct : LiveData<List<Product>> = liveDataAdmin
 
-    private val liveDataProdukAdmin : MutableLiveData<List<Data>> = MutableLiveData()
-    val dataProductAdmin :LiveData<List<Data>>  = liveDataProdukAdmin
-    fun getalltransaksi(token : String){
-       api.getAllTransaksi("Bearer $token").enqueue(object : Callback<GetAllTransaksiResponse>{
-           override fun onResponse(
-               call: Call<GetAllTransaksiResponse>,
-               response: Response<GetAllTransaksiResponse>
-           ) {
-               if (response.isSuccessful){
-                  liveDataProdukAdmin.value = response.body()!!.data
-               }
-               else{
-                   Log.e("Admin View Model", "Cannot send data admin")
-               }
-
-
-           }
-
-           override fun onFailure(call: Call<GetAllTransaksiResponse>, t: Throwable) {
-               Log.e("Admin View Model 2", "Null Data Admin")
-           }
-
-       })
-    }
 
     private val liveDataPesanan : MutableLiveData<List<DataPesanan>> = MutableLiveData()
     val datapesanan : LiveData<List<DataPesanan>> = liveDataPesanan

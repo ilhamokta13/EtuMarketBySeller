@@ -64,7 +64,7 @@ class PesananAdapter( var listpesanan : List<DataPesanan>, var context: Context 
 
 
         Glide.with(holder.itemView.context)
-            .load("https://7895jr9m-3000.asse.devtunnels.ms/uploads/${product.productID.image}")
+            .load("https://f31jwrgg-3000.asse.devtunnels.ms/uploads/${product.productID.image}")
             .into(holder.binding.imagePesananRiwayat)
 
         holder.binding.recCard.setOnClickListener {
@@ -75,6 +75,17 @@ class PesananAdapter( var listpesanan : List<DataPesanan>, var context: Context 
             bundle.putString("productid", ProductId)
             Navigation.findNavController(it).navigate(R.id.action_listFragment_to_listDetailFragment, bundle)
 
+        }
+
+
+        holder.binding.chatpembeli.setOnClickListener {
+            val userId = item.user.userId
+            val fullname = item.user.fullName
+
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("userId",userId)
+            intent.putExtra("fullname",fullname)
+            context.startActivity(intent)
         }
 
         holder.binding.lihatshareloc.setOnClickListener {

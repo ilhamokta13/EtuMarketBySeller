@@ -30,8 +30,8 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
 
 
 
-    fun createproduct( nameProduct : RequestBody, price : RequestBody, description : RequestBody, image : MultipartBody.Part, category : RequestBody, token : String, releaseDate : RequestBody, latitude:RequestBody, longitude:RequestBody) {
-        api.createproduct(nameProduct, price, description, image, category, "Bearer $token", releaseDate, latitude, longitude).enqueue(object : Callback<CreateProductResponse>{
+    fun createproduct( userId: String,nameProduct : RequestBody, price : RequestBody, description : RequestBody, image : MultipartBody.Part, category : RequestBody, token : String, releaseDate : RequestBody, latitude:RequestBody, longitude:RequestBody, stock : RequestBody) {
+        api.createproduct(userId,nameProduct, price, description, image, category, "Bearer $token", releaseDate, latitude, longitude, stock).enqueue(object : Callback<CreateProductResponse>{
             override fun onResponse(
                 call: Call<CreateProductResponse>,
                 response: Response<CreateProductResponse>
@@ -54,8 +54,8 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
     private val _responseupdate : MutableLiveData<com.ilham.etumarketbyseller.model.product.update.Data?> = MutableLiveData()
     val responseupdate : LiveData<com.ilham.etumarketbyseller.model.product.update.Data?> = _responseupdate
 
-    fun updateproduct( token: String, id: String, nameProduct : RequestBody, price : RequestBody, description : RequestBody, image : MultipartBody.Part, category : RequestBody, releaseDate : RequestBody, longitude: RequestBody, latitude: RequestBody){
-        api.updateProduct( "Bearer $token", id, nameProduct, price, description, image, category, releaseDate, longitude, latitude).enqueue(object : Callback<com.ilham.etumarketbyseller.model.product.update.Data>{
+    fun updateproduct( token: String, id: String, nameProduct : RequestBody, price : RequestBody, description : RequestBody, image : MultipartBody.Part, category : RequestBody, releaseDate : RequestBody, longitude: RequestBody, latitude: RequestBody, stock: RequestBody){
+        api.updateProduct( "Bearer $token", id, nameProduct, price, description, image, category, releaseDate, longitude, latitude, stock).enqueue(object : Callback<com.ilham.etumarketbyseller.model.product.update.Data>{
             override fun onResponse(
                 call: Call<com.ilham.etumarketbyseller.model.product.update.Data>,
                 response: Response<com.ilham.etumarketbyseller.model.product.update.Data>
@@ -79,35 +79,7 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
 
     }
 
-    private val _responseupdate2 : MutableLiveData<com.ilham.etumarketbyseller.model.product.update.Data?> = MutableLiveData()
-    val responseupdate2 : LiveData<com.ilham.etumarketbyseller.model.product.update.Data?> = _responseupdate
 
-
-    fun updateproduct2(token : String, id : String,  nameProduct : String, price : String, description : String,  category : String, releaseDate : String, location:String){
-        api.updateProduct2("Bearer $token", id, nameProduct, price, description, category, releaseDate, location).enqueue(object : Callback<com.ilham.etumarketbyseller.model.product.update.Data>{
-            override fun onResponse(
-                call: Call<com.ilham.etumarketbyseller.model.product.update.Data>,
-                response: Response<com.ilham.etumarketbyseller.model.product.update.Data>
-            ) {
-                if (response.isSuccessful){
-                    _responseupdate2.postValue(response.body())
-                }else{
-                    _responseupdate2.postValue(null)
-                    Log.e("ProductViewModel","${response.errorBody()?.string()}")
-                }
-            }
-
-            override fun onFailure(
-                call: Call<com.ilham.etumarketbyseller.model.product.update.Data>,
-                t: Throwable
-            ) {
-                Log.e("ProductViewModel", "Cannot get data")
-            }
-
-        })
-
-
-    }
 
 
     private val liveDatatawarharga: MutableLiveData<List<TawarProduct>> =  MutableLiveData()
@@ -157,7 +129,6 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
 
                 }
             }
-
             override fun onFailure(call: Call<PatchTawarHargaResponse>, t: Throwable) {
                 Log.e("ConfirmStatusHarga2", "Null Post Confirm Status")
             }
@@ -188,21 +159,7 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
         editor.apply()
     }
 
-    fun getIdCart():String?{
-        return sharedPreferences.getString("idcart"," ")
-    }
 
-
-
-//    fun saveIdProduct(idProduct:String){
-//        val editor =  sharedPreferences.edit()
-//        editor.putString("id", idProduct)
-//        editor.apply()
-//    }
-//
-//    fun getTicketId():String?{
-//        return sharedPreferences.getString("id","")
-//    }
 
     fun saveDate(date: String){
         val editor = sharedPreferences.edit()
@@ -255,12 +212,6 @@ class ProductViewModel @Inject constructor(private val api : ApiService,
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
     }
 
-
-
-
-    fun getLocation():String?{
-        return sharedPreferences.getString("location"," ")
-    }
 
 
 

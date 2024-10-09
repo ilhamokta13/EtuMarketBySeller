@@ -93,43 +93,14 @@ class EditFragment : Fragment() {
 
         formTitle(hintTitle)
 
-//        binding.etDate.setText(dateNowRilis)
         datePickerRilis()
 
 
 
 
-
-//        val getnamaproduk = pref.getString("namaproduk", "")
-//        binding.uploadNamaProduk.setText(getnamaproduk)
-//
-//        val getharga = pref.getString("harga", "")
-//        binding.uploadHargaMenu.setText(getharga)
-//
-//        val getdeskripsi = pref.getString("deskripsi", "")
-//        binding.uploadDesc.setText(getdeskripsi)
-//
-//        val getcategori = pref.getString("categori", "")
-//        binding.uploadCategory.setText(getcategori)
-//
-//        val getrelease = pref.getString("release", "")
-//        binding.uploadreleaseDate.setText(getrelease)
-//
-//        val getlocation = pref.getString("location", "")
-//        binding.uploadlocation.setText(getlocation)
-
-//        val getimage = pref.getString("image", "")
-//        binding.uploadImage.setImageResource(getimage.toString().toInt())
-
-//        val getDataProduct = arguments?.getString("idcart")
-//        val token  =  pref.getString("token", "").toString()
-//        homeVm.getproductperid(token, getDataProduct!!)
-
-
         getdataproduct()
 
         binding.uploadImage.setOnClickListener {
-//           openGallery()
             getContent.launch("image/*")
 
         }
@@ -181,13 +152,11 @@ class EditFragment : Fragment() {
 
                     val geocoder = Geocoder(requireContext(), Locale.getDefault())
                     try {
-                        // Define valid ranges for latitude and longitude
                         val MIN_LATITUDE = -90.0
                         val MAX_LATITUDE = 90.0
                         val MIN_LONGITUDE = -180.0
                         val MAX_LONGITUDE = 180.0
 
-                        // Validate latitude and longitude values
                         if (location.latitude !in MIN_LATITUDE..MAX_LATITUDE) {
                             throw IllegalArgumentException("Latitude is out of range: ${location.latitude}")
                         }
@@ -195,7 +164,6 @@ class EditFragment : Fragment() {
                             throw IllegalArgumentException("Longitude is out of range: ${location.longitude}")
                         }
 
-                        // Proceed with geocoding if values are valid
                         val addresses: List<Address> = geocoder.getFromLocation(location.latitude, location.longitude, 1) as List<Address>
                         if (addresses.isNotEmpty()) {
                             val locName: String = addresses[0].getAddressLine(0)
@@ -204,12 +172,9 @@ class EditFragment : Fragment() {
                         }
                     } catch (e: IllegalArgumentException) {
                         e.printStackTrace()
-                        // Handle invalid latitude or longitude error
-                        // For example, show an error message to the user
                         binding.uploadlocation.text = "Invalid latitude or longitude."
                     } catch (e: IOException) {
                         e.printStackTrace()
-                        // Handle other IOExceptions
                     }
 
                 } else {
@@ -252,8 +217,6 @@ class EditFragment : Fragment() {
                 val datePickerDialog = DatePickerDialog(
                     requireContext(),
                     { _, year, month, dayOfMonth ->
-//                        val bulan = nameMonth[month]
-//                        val tanggalRilis = "$year-${month+1}-$dayOfMonth"
                         val nameMonth = namaMonth()
                         val selectedCalendar = Calendar.getInstance()
                         selectedCalendar.set(year, month, dayOfMonth)
@@ -279,10 +242,7 @@ class EditFragment : Fragment() {
     }
 
 
-    private fun openGallery() {
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(galleryIntent, IMAGE_REQUEST_CODE)
-    }
+
 
     private fun formTitle(hintTitle: Array<String>) {
         binding.uploadCategory.apply {
@@ -295,18 +255,7 @@ class EditFragment : Fragment() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (requestCode == IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            val imageUri = data?.data
-//
-//            // Update dataGambarUri
-//            dataGambarUri = imageUri!!
-//
-//            // memuat gambar yang dipilih ke dalam ImageView
-//            binding.uploadImage.setImageURI(dataGambarUri)
-//        }
-//    }
+
 
 
     fun updatedata(){
@@ -317,101 +266,37 @@ class EditFragment : Fragment() {
         val categori = binding.uploadCategory.text.toString().toRequestBody("text/plain".toMediaType())
         val dateNowRilis = productVm.geteditdate()
         binding.etDate.setText(dateNowRilis)
-        val release = binding.etDate.text.toString().toRequestBody("text/plain".toMediaType())
         val tglrelease = productVm.geteditdate().toString().toRequestBody("text/plain".toMediaType())
         val latitude = binding.latitude.text.toString().toRequestBody("text/plain".toMediaType())
         val lonitude = binding.longitude.text.toString().toRequestBody("text/plain".toMediaType())
+        val stock = binding.uploadstok.text.toString().toRequestBody("text/plain". toMediaType())
         val token  =  pref.getString("token", "").toString()
         val getDataProduct = arguments?.getString("idcart")
 
-        val releasedate = "2024-07-11"
-
-        val namaproduk2 = binding.uploadNamaProduk.text.toString()
-        val harga2 = binding.uploadHargaMenu.text.toString()
-        val deskripsi2 =
-            binding.uploadDesc.text.toString()
-        val categori2 = binding.uploadCategory.text.toString()
-        val release2 = binding.etDate.text.toString()
-        val location2 = binding.uploadlocation.text.toString()
-//        val image = binding.uploadImage
-//        val image = "1708696672276-Cuplikan layar 2023-12-21 221601.png"
-
-        val getData = "65d4c69e4d75257167758543"
-
-//
-//            val getData = arguments?.getSerializable("edit") as DataAdmin
-//            idEdit = getData.id
-
-        val sellerID = pref.getString("sellerID", "").toString().toRequestBody("text/plain".toMediaType())
-
-
-        productVm.updateproduct(token,getDataProduct!!,namaproduk,harga,deskripsi,imageMultipart!!,categori,tglrelease,lonitude,latitude)
-
-
-
-//        productVm.updateproduct2(token,getDataProduct!!,namaproduk2,harga2,deskripsi2, categori2,release2,location2)
 
 
 
 
 
-//        Log.d("idkosong", "idkosong ${productVm.updateproduct(token,getData,namaproduk,harga,deskripsi,imageMultipart!!, categori,release,location)}")
+        productVm.updateproduct(token,getDataProduct!!,namaproduk,harga,deskripsi,imageMultipart!!,categori,tglrelease,lonitude,latitude, stock)
 
-//        Log.d("id null", "Idkosong ${idEdit}")
-
-//        navigationBundlingSf(categori.toString().toRequestBody(), deskripsi, id, imageMultipart!!, location, namaproduk, harga, release, sellerID, 0)
-
-
-//        productVm.responseupdate2.observe(viewLifecycleOwner){
-//            if (it != null) {
-//                Toast.makeText(context, "Data Berhasil Diupdate", Toast.LENGTH_SHORT).show()
-//
-//
-//            } else {
-//                Log.d("Create Seller", "_id : ${it}" )
-//            }
-//
-//        }
 
         productVm.responseupdate.observe(viewLifecycleOwner){
             if (it != null) {
                 findNavController().navigate(R.id.action_editFragment_to_homeFragment)
                 Toast.makeText(context, "Data Berhasil Diupdate", Toast.LENGTH_SHORT).show()
             } else {
-//                Log.d(TAG, "register failed: $it")
                 Log.d("Create Seller", "_id : ${it}" )
             }
         }
 
 
 
-//        val adduser = pref.edit()
-//        adduser.putString("namaproduk",
-//            namaproduk.toString().toRequestBody("text/plain".toMediaType()).toString()
-//        )
-//        adduser.putString("harga", harga.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.putString("deskripsi", deskripsi.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.putString("categori", categori.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.putString("release", release.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.putString("location", location.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.putString("image", imageMultipart.toString().toRequestBody("text/plain".toMediaType()).toString())
-//        adduser.apply()
-
-
-//        productVm.saveIdProduct(id!!)
-
 
 
     }
 
-//    private fun navigationBundlingSf(currentUser: Data) {
-//        pref =
-//            requireActivity().getSharedPreferences("Success", Context.MODE_PRIVATE)
-//        //shared pref to save log in history
-//        val sharedPref = pref.edit()
-//        sharedPref.putString("id", currentUser.id)
-//        sharedPref.apply()
-//    }
+
 
 
 
@@ -490,16 +375,7 @@ class EditFragment : Fragment() {
 
     }
 
-//    fun getprofile(currentUser : DataAdmin){
-//        val sharedPref =pref.edit()
-//        sharedPref.putString("image", currentUser.image)
-//        sharedPref.putInt("harga", currentUser.price)
-//        sharedPref.putString("namaproduk", currentUser.nameProduct)
-//        sharedPref.putString("deskripsi", currentUser.description)
-//        sharedPref.putString("kategori", currentUser.category)
-//        sharedPref.putString("release", currentUser.releaseDate)
-//        sharedPref.putString("location", currentUser.location)
-//        sharedPref.apply()
+
 
 
 

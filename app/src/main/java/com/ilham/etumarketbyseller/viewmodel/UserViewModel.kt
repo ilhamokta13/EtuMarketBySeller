@@ -36,8 +36,8 @@ class UserViewModel @Inject constructor(private val api : ApiService) : ViewMode
     private val _responselogin : MutableLiveData<ResponseLogin> = MutableLiveData()
     val responselogin : LiveData<ResponseLogin> = _responselogin
 
-    fun postregist(fullName : String, email : String, password : String, telp : String, role : String,){
-        api.register(fullName, email, password, telp, role,).enqueue(object : Callback<ResponseRegister>{
+    fun postregist(userId: String,fullName : String, email : String, password : String, telp : String, role : String,shopName: String){
+        api.register(userId,fullName, email, password, telp, role,shopName).enqueue(object : Callback<ResponseRegister>{
             override fun onResponse(
                 call: Call<ResponseRegister>,
                 response: Response<ResponseRegister>
@@ -66,12 +66,6 @@ class UserViewModel @Inject constructor(private val api : ApiService) : ViewMode
 
                 }
                 else {
-//                   _responselogin.value = LoginResponse(
-//                       "",
-//                       "",
-//                       false
-//                   )
-//
                     _toastLogin.value="Login Failed"
                     Log.e("UserViewModel", "Cannot get data")
                 }

@@ -17,7 +17,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiClient {
-    const val BASE_URL = "https://7895jr9m-3000.asse.devtunnels.ms/"
+    const val BASE_URL = "https://f31jwrgg-3000.asse.devtunnels.ms/"
+    //http://34.128.104.237:3000/
 
     private val logging: HttpLoggingInterceptor
         get() {

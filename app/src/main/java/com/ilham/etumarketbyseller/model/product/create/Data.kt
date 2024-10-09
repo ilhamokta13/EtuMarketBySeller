@@ -10,6 +10,8 @@ data class Data(
     val description: String,
     @SerializedName("_id")
     val id: String,
+    @SerializedName("userId")
+    val userId: String,
     @SerializedName("image")
     val image: String,
     @SerializedName("latitude")
@@ -20,6 +22,8 @@ data class Data(
     val nameProduct: String,
     @SerializedName("price")
     val price: Int,
+    @SerializedName("stock")
+    val stock: Int,
     @SerializedName("releaseDate")
     val releaseDate: String,
     @SerializedName("sellerID")

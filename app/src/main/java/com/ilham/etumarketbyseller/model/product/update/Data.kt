@@ -19,6 +19,8 @@ data class Data(
     val longitude: Double,
     @SerializedName("nameProduct")
     val nameProduct: String,
+    @SerializedName("stock")
+    val stock: Int,
     @SerializedName("price")
     val price: Int,
     @SerializedName("releaseDate")

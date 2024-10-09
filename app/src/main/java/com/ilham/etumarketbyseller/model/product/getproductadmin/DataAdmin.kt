@@ -1,9 +1,11 @@
 package com.ilham.etumarketbyseller.model.product.getproductadmin
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
-
+@Parcelize
 data class DataAdmin(
     @SerializedName("category")
     val category: String,
@@ -27,4 +29,4 @@ data class DataAdmin(
     val sellerID: SellerID,
     @SerializedName("__v")
     val v: Int
-):Serializable
+):Parcelable

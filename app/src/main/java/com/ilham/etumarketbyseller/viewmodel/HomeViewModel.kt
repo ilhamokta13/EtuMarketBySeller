@@ -21,32 +21,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val api : ApiService) : ViewModel() {
 
-
-    private val liveDataProduct : MutableLiveData<List<DataAllProduct>> = MutableLiveData()
-    val dataProduct : LiveData<List<DataAllProduct>> = liveDataProduct
-    fun getAllproduct(){
-      api.getAllProduct().enqueue(object : Callback<AllProductResponse>{
-          override fun onResponse(
-              call: Call<AllProductResponse>,
-              response: Response<AllProductResponse>
-          ) {
-              if (response.isSuccessful){
-                  liveDataProduct.value = response.body()!!.data
-              }
-              else{
-                  Log.e("HomeViewModel", "Cannot send data")
-              }
-          }
-
-          override fun onFailure(call: Call<AllProductResponse>, t: Throwable) {
-//              Log.e("BiodataViewModel","${t.errorBody()?.string()}")
-              Log.e("HomeViewModel", "Data Null")
-
-          }
-
-      })
-    }
-
     private val livedeleteproduct : MutableLiveData<DataAdmin> = MutableLiveData()
     val itemdeleteproduct : LiveData<DataAdmin> = livedeleteproduct
 

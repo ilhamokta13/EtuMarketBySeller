@@ -50,9 +50,6 @@ class HomeFragment : Fragment() {
         homeVm = ViewModelProvider(this).get(HomeViewModel::class.java)
         productVm = ViewModelProvider(this).get(ProductViewModel::class.java)
         userVm = ViewModelProvider(this).get(UserViewModel::class.java)
-//        val fullname = pref.getString("fullname", "")
-//        binding.welcome.text = "Welcome, $fullname!"
-//        Log.d("Homescreen", "Username : $fullname")
         val token = pref.getString("token", "").toString()
         selleradapter = SellerAdapter(requireContext(),ArrayList(),homeVm, productVm)
 
@@ -79,36 +76,6 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_loginFragment)
         }
 
-//        postdata(id)
-
-
-//        adapter = SellerAdapter(ArrayList())
-//
-//        binding.rvMain.apply {
-//            setHasFixedSize(true)
-//            layoutManager = LinearLayoutManager(context)
-//        }
-//
-//        homeVm.dataProduct.observe(viewLifecycleOwner) {
-//            if (it != null) {
-//                binding.rvMain.adapter = SellerAdapter(it)
-//
-//
-//            }
-//        }
-
-//        homeVm.getAllproduct()
-
-//        binding.swipeRefreshLayout.setOnRefreshListener {
-//
-//            getdata(token)
-//
-//            Handler().postDelayed({
-//                binding.swipeRefreshLayout.isRefreshing = false
-//            }, 2000)
-//        }
-//
-//        simulateAutomaticRefresh()
 
         binding.etSearchProduct.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -148,29 +115,6 @@ class HomeFragment : Fragment() {
 
         })
     }
-
-
-
-
-
-
-
-
-
-
-
-//    fun postdata(id:String){
-//        homeVm = ViewModelProvider(this).get(HomeViewModel::class.java)
-//
-//        homeVm.getproductperid(id)
-//
-//        homeVm.dataproductperid.observe(viewLifecycleOwner , Observer {
-//
-//
-//        })
-//
-//
-//    }
 
 
 
